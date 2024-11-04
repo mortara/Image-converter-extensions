@@ -4,11 +4,8 @@ using ImageMagick;
 using ImageMagick.Factories;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
-using SkiaSharp.Views.Windows;
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {
@@ -20,6 +17,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
             try
             {
                 var f = new MagickFactory();
+               
                 using (var ms = new MemoryStream())
                 {
                     bmp.Save(ms, ImageFormat.Bmp);
@@ -54,42 +52,5 @@ namespace PMortara.Helpers.ImageConverterExtensions
             }
         }
 
-        public static BitmapSource ToBitmapSource(this SKBitmap img)
-        {
-            using (var pixels = img.PeekPixels())
-            {
-                if (pixels == null)
-                    return img.ToWriteableBitmap();
-                
-                var filters = SKPngEncoderFilterFlags.NoFilters;
-                int compress = 0;
-                var options = new SKPngEncoderOptions(filters, compress);
-                using (var data = pixels.Encode(options))
-                {
-                    var bitmapImage = new BitmapImage();
-                    bitmapImage.CreateOptions = BitmapCreateOptions.None;
-                    bitmapImage.SetSource(data.AsStream().AsRandomAccessStream());
-                    return bitmapImage;
-                }
-            }
-        }
-
-        public static BitmapImage ToBitmapImage(this SKBitmap img)
-        {    
-            using (var pixels = img.PeekPixels())
-            {
-               
-                var filters = SKPngEncoderFilterFlags.NoFilters;
-                int compress = 0;
-                var options = new SKPngEncoderOptions(filters, compress);
-                using (var data = pixels.Encode(options))
-                {
-                    var bitmapImage = new BitmapImage();
-                    bitmapImage.CreateOptions = BitmapCreateOptions.None;
-                    bitmapImage.SetSource(data.AsStream().AsRandomAccessStream());
-                    return bitmapImage;
-                }
-            }
-        }
     }
 }

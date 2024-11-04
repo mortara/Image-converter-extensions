@@ -1,4 +1,5 @@
 ﻿using Emgu.CV;
+using Emgu.CV.OCR;
 using Emgu.CV.Structure;
 using ImageMagick;
 using ImageMagick.Factories;
@@ -7,13 +8,17 @@ using SkiaSharp;
 using SkiaSharp.Views.Windows;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Windows.Media.Media3D;
+
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {
     public static class SKImageExtensions
     {
+       
         public static IMagickImage ToMagickImage(this SKImage skimg)
-        {
+        { 
             var bmp = skimg.ToBitmap(PixelFormat.Format32bppArgb);
             try
             {
