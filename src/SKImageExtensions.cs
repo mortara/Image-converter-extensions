@@ -1,5 +1,4 @@
 ﻿using Emgu.CV;
-using Emgu.CV.OCR;
 using Emgu.CV.Structure;
 using ImageMagick;
 using ImageMagick.Factories;
@@ -8,8 +7,6 @@ using SkiaSharp;
 using SkiaSharp.Views.Windows;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Windows.Media.Media3D;
 
 
 namespace PMortara.Helpers.ImageConverterExtensions
@@ -50,44 +47,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
             }
         }
 
-        public static BitmapSource ToBitmapSource(this SKImage img)
-        {
-            img = img.ToRasterImage();
-            using (var pixels = img.PeekPixels())
-            {
-                if (pixels == null)
-                    return img.ToWriteableBitmap();
-
-                var filters = SKPngEncoderFilterFlags.NoFilters;
-                int compress = 0;
-                var options = new SKPngEncoderOptions(filters, compress);
-                using (var data = pixels.Encode(options))
-                {
-                    var bitmapImage = new BitmapImage();
-                    bitmapImage.CreateOptions = BitmapCreateOptions.None;
-                    bitmapImage.SetSource(data.AsStream().AsRandomAccessStream());
-                    return bitmapImage;
-                }
-            }
-        }
-
-        public static BitmapImage ToBitmapImage(this SKImage img)
-        {
-            img = img.ToRasterImage();
-            using (var pixels = img.PeekPixels())
-            {
-                var filters = SKPngEncoderFilterFlags.NoFilters;
-                int compress = 0;
-                var options = new SKPngEncoderOptions(filters, compress);
-                using (var data = pixels.Encode(options))
-                {
-                    var bitmapImage = new BitmapImage();
-                    bitmapImage.CreateOptions = BitmapCreateOptions.None;
-                    bitmapImage.SetSource(data.AsStream().AsRandomAccessStream());
-                    return bitmapImage;
-                }
-            }
-        }
+        
 
         public static System.Drawing.Bitmap ToBitmap(this SKImage skiaImage, System.Drawing.Imaging.PixelFormat pixelFormat)
         {
