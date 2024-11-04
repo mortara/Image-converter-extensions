@@ -33,17 +33,11 @@ namespace PMortara.Helpers.ImageConverterExtensions
 
         public static Image<Bgra, byte> ToEMGUImage(this SKBitmap skbmp)
         {
-            var bmp = skbmp.ToBitmap();
+            var bmp = skbmp.ToBitmap(PixelFormat.Format32bppArgb);
 
             try
             {
-                if (bmp.PixelFormat != PixelFormat.Format32bppArgb)
-                {
-                    var bmpnew = bmp.ConvertPixelFormat(PixelFormat.Format32bppArgb);        
-                    bmp.Dispose();
-                    bmp = bmpnew;
-                }
-
+              
                 return BitmapExtension.ToImage<Bgra, byte>(bmp);
             }
             finally
@@ -52,5 +46,16 @@ namespace PMortara.Helpers.ImageConverterExtensions
             }
         }
 
+
+        public static System.Drawing.Bitmap ToBitmap(this SKBitmap skiaBitmap, System.Drawing.Imaging.PixelFormat pixelFormat)
+        {
+            using (var pixmap = skiaBitmap.PeekPixels())
+            using (var image = SKImage.FromPixels(pixmap))
+            {
+                var bmp = image.ToBitmap(pixelFormat);
+                GC.KeepAlive(skiaBitmap);
+                return bmp;
+            }
+        }
     }
 }
