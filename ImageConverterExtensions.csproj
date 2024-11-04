@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
+    <Platforms>x86;x64</Platforms>
+    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>PMortara.Helpers.ImageConverterExtensions</RootNamespace>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Image converter extensions</Title>
+    <Authors>Patrick Mortara</Authors>
+    <Description>A small library of extensions to convert images between different formats.</Description>
+    <Copyright>2024 Patrick Mortara</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Emgu.CV.Bitmap" Version="4.9.0.5494" />
+	  <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.0.0" />
+	  <PackageReference Include="Magick.NET.Core" Version="14.0.0" />
+	  <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="3.0.0-preview.5.4" />
+	  <PackageReference Include="SkiaSharp.NativeAssets.WinUI" Version="3.0.0-preview.5.4" />
+	  <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="3.0.0-preview.5.4" />
+	  <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="3.0.0-preview.5.4" />
+	  <PackageReference Include="SkiaSharp.Views.WinUI" Version="3.0.0-preview.5.4" />
+  </ItemGroup>
+
+</Project>
