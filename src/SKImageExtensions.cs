@@ -8,6 +8,7 @@ using SkiaSharp.Views.Desktop;
 using SkiaSharp.Views.Windows;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {
@@ -15,62 +16,41 @@ namespace PMortara.Helpers.ImageConverterExtensions
     {
         public static IMagickImage ToMagickImage(this SKImage skimg)
         {
-            IMagickImage img = null;
             var bmp = skimg.ToBitmap();
-            var f = new MagickFactory();
-            using (MemoryStream ms = new MemoryStream())
+            try
             {
-                bmp.Save(ms, ImageFormat.Bmp);
-                ms.Position = 0;
-                img = new MagickImage(f.Image.Create(ms));
+                var f = new MagickFactory();
+                using (var ms = new MemoryStream())
+                {
+                    bmp.Save(ms, ImageFormat.Bmp);
+                    ms.Position = 0;
+                    return new MagickImage(f.Image.Create(ms));
+                }
             }
-            return img;
+            finally
+            {
+                bmp.Dispose();
+            }
         }
 
         public static Image<Bgra, byte> ToEMGUImage(this SKImage img)
         {
             var bmp = img.ToBitmap();
 
-            if (bmp.PixelFormat != PixelFormat.Format32bppArgb)
+            try
             {
-                var bmpnew = new Bitmap(img.Width, img.Height, PixelFormat.Format32bppArgb);
-
-                using (var g = Graphics.FromImage(bmpnew))
+                if (bmp.PixelFormat != PixelFormat.Format32bppArgb)
                 {
-                    g.DrawImage(bmp, new PointF(0, 0));
+                    var bmpnew = bmp.ConvertPixelFormat(PixelFormat.Format32bppArgb);
+                    bmp.Dispose();
+                    bmp = bmpnew;
                 }
 
+                return BitmapExtension.ToImage<Bgra, byte>(bmp);
+            }
+            finally
+            {
                 bmp.Dispose();
-                bmp = bmpnew;
-            }
-
-            var emgu = BitmapExtension.ToImage<Bgra, byte>(bmp);
-            bmp.Dispose();
-            return emgu;
-
-        }
-
-        public static SKBitmap ToSKBitmap(this Bitmap bitmap)
-        {
-            using (var stream = new MemoryStream())
-            {
-                bitmap.Save(stream, ImageFormat.Bmp);
-
-                stream.Seek(0, SeekOrigin.Begin);
-
-                return SKBitmap.Decode(stream);
-            }
-        }
-
-        public static SKBitmap ToSKBitmap(this Icon icon)
-        {
-            using (var stream = new MemoryStream())
-            {
-                icon.Save(stream);
-
-                stream.Seek(0, SeekOrigin.Begin);
-
-                return SKBitmap.Decode(stream);
             }
         }
 
@@ -81,6 +61,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
             {
                 if (pixels == null)
                     return img.ToWriteableBitmap();
+
                 var filters = SKPngEncoderFilterFlags.NoFilters;
                 int compress = 0;
                 var options = new SKPngEncoderOptions(filters, compress);

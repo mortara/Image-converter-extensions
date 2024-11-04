@@ -5,6 +5,8 @@
     <Platforms>x86;x64</Platforms>
     <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
     <Nullable>enable</Nullable>
     <RootNamespace>PMortara.Helpers.ImageConverterExtensions</RootNamespace>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>

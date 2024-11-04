@@ -1,5 +1,6 @@
 ﻿using ImageMagick;
 using SkiaSharp;
+using System.IO;
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {
@@ -7,13 +8,21 @@ namespace PMortara.Helpers.ImageConverterExtensions
     {
         public static SKImage ToSKImage(this IMagickImage mimg)
         {
-            var fmt = MagickFormat.Bmp3;
-
             using (var ms = new MemoryStream())
             {
-                mimg.Write(ms, fmt);
+                mimg.Write(ms, MagickFormat.Bmp3);
                 ms.Position = 0;
                 return SKImage.FromEncodedData(ms);
+            }
+        }
+
+        public static SKBitmap ToSKBitmap(this IMagickImage mimg)
+        {
+            using (var ms = new MemoryStream())
+            {
+                mimg.Write(ms, MagickFormat.Bmp3);
+                ms.Position = 0;
+                return SKBitmap.Decode(ms);
             }
         }
     }
