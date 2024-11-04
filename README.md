@@ -1,6 +1,6 @@
 # Image converter extensions
  
-A collection of extension-methods to convert images between different library formats. As i am using SkiaSharp mostly, these extensions are mostly build around SkiaSharps SKImage class.
+A collection of quick&dirty extension-methods to convert images between different library formats. As i am using SkiaSharp primary, these extensions are mostly build around SkiaSharps SKImage class.
 
 Currently supported:
  - SKImage <-> IMagickImage
@@ -11,6 +11,8 @@ Currently supported:
  - System.Drawing.Bitmap -> SKImage
 
 More extensions are about to come.
+
+
 
 # License
 
