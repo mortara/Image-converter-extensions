@@ -1,26 +1,25 @@
 # Image converter extensions
  
-A collection of quick&dirty extension-methods to convert images between different library formats. As i am using SkiaSharp primary, these extensions are mostly build around SkiaSharps SKImage class.
+A collection of quick&dirty extension-methods to convert images between different library formats. 
 
-Currently supported:
+Currently is covers images of: 
+- SkiaSharp (https://github.com/mono/SkiaSharp)
+- EMGU.CV (https://github.com/emgucv/emgucv)
+- Magick.NET (https://github.com/dlemstra/Magick.NET)
+
+
+Supported conersions:
 
  - SkiaSharp.SKImage <-> ImageMagick.IMagickImage
- - SkiaSharp.SKImage -> Emgu.CV.Image
+ - SkiaSharp.SKImage <-> Emgu.CV.Image
+ - SkiaSharp.SKImage -> System.Drawing.Bitmap (with option to specify pixelformat)
 
  - SkiaSharp.SKBitmap <-> ImageMagick.IMagickImage
- - SkiaSharp.SKBitmap -> Emgu.CV.Image
-
- - SkiaSharp.SKImage -> Microsoft.UI.Xaml.Media.Imaging.BitmapSource
- - SkiaSharp.SKImage -> Microsoft.UI.Xaml.Media.Imaging.BitmapImage
-
- - SkiaSharp.SKBitmap -> Microsoft.UI.Xaml.Media.Imaging.BitmapSource
- - SkiaSharp.SKBitmap -> Microsoft.UI.Xaml.Media.Imaging.BitmapImage
+ - SkiaSharp.SKBitmap <-> Emgu.CV.Image
+ - SkiaSharp.SKBitmap -> System.Drawing.Bitmap (with option to specify pixelformat)
 
  - System.Drawing.Icon -> SkiaSharp.SKImage
  - System.Drawing.Bitmap -> SkiaSharp.SKImage
-
- - System.Drawing.Icon -> SkiaSharp.SKBitmap
- - System.Drawing.Bitmap -> SkiaSharp.SKBitmap
 
 More extensions are about to come.
 
