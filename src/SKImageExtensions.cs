@@ -2,9 +2,7 @@
 using Emgu.CV.Structure;
 using ImageMagick;
 using ImageMagick.Factories;
-using Microsoft.UI.Xaml.Media.Imaging;
 using SkiaSharp;
-using SkiaSharp.Views.Windows;
 using System.Drawing.Imaging;
 using System.IO;
 
@@ -47,16 +45,17 @@ namespace PMortara.Helpers.ImageConverterExtensions
             }
         }
 
-        
-
+        /// <summary>
+        /// Converts SKImage to System.Drawing.Bitmap with specified PixelFormat. Besides that, it's a copy of SKImage's own ToBitmap() method
+        /// </summary>
+        /// <param name="skiaImage"></param>
+        /// <param name="pixelFormat"></param>
+        /// <returns></returns>
         public static System.Drawing.Bitmap ToBitmap(this SKImage skiaImage, System.Drawing.Imaging.PixelFormat pixelFormat)
         {
-            // TODO: maybe keep the same color types where we can, instead of just going to the platform default
-
             var bitmap = new System.Drawing.Bitmap(skiaImage.Width, skiaImage.Height, pixelFormat);
             var data = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), System.Drawing.Imaging.ImageLockMode.WriteOnly, bitmap.PixelFormat);
 
-            // copy
             using (var pixmap = new SKPixmap(new SKImageInfo(data.Width, data.Height), data.Scan0, data.Stride))
             {
                 skiaImage.ReadPixels(pixmap, 0, 0);

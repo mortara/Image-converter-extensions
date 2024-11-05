@@ -17,7 +17,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
             try
             {
                 var f = new MagickFactory();
-               
+                
                 using (var ms = new MemoryStream())
                 {
                     bmp.Save(ms, ImageFormat.Bmp);
@@ -46,7 +46,12 @@ namespace PMortara.Helpers.ImageConverterExtensions
             }
         }
 
-
+        /// <summary>
+        /// Converts SKBitmap to System.Drawing.Bitmap with specified PixelFormat. Besides that, it's a copy of SKBitmap's own ToBitmap() method
+        /// </summary>
+        /// <param name="skiaBitmap"></param>
+        /// <param name="pixelFormat"></param>
+        /// <returns></returns>
         public static System.Drawing.Bitmap ToBitmap(this SKBitmap skiaBitmap, System.Drawing.Imaging.PixelFormat pixelFormat)
         {
             using (var pixmap = skiaBitmap.PeekPixels())
