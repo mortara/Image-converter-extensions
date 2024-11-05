@@ -7,16 +7,11 @@ namespace PMortara.Helpers.ImageConverterExtensions
 {
     public static class SystemDrawingExtensions
     {
-        public static SKBitmap ToSKBitmap(this Bitmap bitmap)
-        {
-            using (var stream = new MemoryStream())
-            {
-                bitmap.Save(stream, ImageFormat.Bmp);
-                stream.Seek(0, SeekOrigin.Begin);
-                return SKBitmap.Decode(stream);
-            }
-        }
-
+        /// <summary>
+        /// Converts a System.Drawing.Icon to SKBitmap
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <returns></returns>
         public static SKBitmap ToSKBitmap(this Icon icon)
         {
             using (var stream = new MemoryStream())
@@ -27,18 +22,14 @@ namespace PMortara.Helpers.ImageConverterExtensions
             }
         }
 
-        public static SKImage ToSKImage(this Bitmap bitmap)
-        {
-            using (var stream = new MemoryStream())
-            {
-                bitmap.Save(stream, ImageFormat.Bmp);
-                stream.Seek(0, SeekOrigin.Begin);
-                return SKImage.FromEncodedData(stream);
-            }
-        }
-
+        /// <summary>
+        /// Converts a System.Drawing.Icon to SKImage
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <returns></returns>
         public static SKImage ToSKImage(this Icon icon)
         {
+
             using (var stream = new MemoryStream())
             {
                 icon.Save(stream);

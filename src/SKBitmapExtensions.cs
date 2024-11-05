@@ -1,5 +1,4 @@
 ﻿using Emgu.CV;
-using Emgu.CV.Structure;
 using ImageMagick;
 using ImageMagick.Factories;
 using SkiaSharp;
@@ -11,6 +10,15 @@ namespace PMortara.Helpers.ImageConverterExtensions
 {
     public static class SKBitmapExtensions
     {
+
+        /// <summary>
+        /// Converts SKBitmap to IMagickImage
+        /// </summary>
+        /// <param name="skimg"></param>
+        /// <returns></returns>
+        /// <ToDo>
+        /// Get rid of that ToBitmap() step.
+        /// </ToDo>
         public static IMagickImage ToMagickImage(this SKBitmap skbmp)
         {
             var bmp = skbmp.ToBitmap();
@@ -31,14 +39,22 @@ namespace PMortara.Helpers.ImageConverterExtensions
             }
         }
 
-        public static Image<Bgra, byte> ToEMGUImage(this SKBitmap skbmp)
+        /// <summary>
+        /// Converts SKBitmap to Emgu.CV Image
+        /// </summary>
+        /// <param name="skimg"></param>
+        /// <returns></returns>
+        /// <ToDo>
+        /// Get rid of that ToBitmap() step.
+        /// </ToDo>
+        public static Image<TColor, TDepth> ToEMGUImage<TColor, TDepth>(this SKBitmap skbmp) where TColor : struct, IColor where TDepth : new()
         {
             var bmp = skbmp.ToBitmap(PixelFormat.Format32bppArgb);
 
             try
             {
               
-                return BitmapExtension.ToImage<Bgra, byte>(bmp);
+                return BitmapExtension.ToImage<TColor, TDepth>(bmp);
             }
             finally
             {

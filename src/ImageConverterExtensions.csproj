@@ -26,7 +26,6 @@
 	  <PackageReference Include="SkiaSharp.NativeAssets.WinUI" Version="3.0.0-preview.5.4" />
 	  <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="3.0.0-preview.5.4" />
 	  <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="3.0.0-preview.5.4" />
-	  <PackageReference Include="SkiaSharp.Views.WinUI" Version="3.0.0-preview.5.4" />
   </ItemGroup>
 
 </Project>

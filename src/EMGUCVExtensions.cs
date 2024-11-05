@@ -1,20 +1,27 @@
 ﻿using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
-using Emgu.CV.Util;
 using SkiaSharp;
-using System.Diagnostics;
-using System.Drawing.Imaging;
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {
     public static  class EMGUCVExtensions
     {
+        /// <summary>
+        /// Converts Emgu.CV Image to SKImage
+        /// </summary>
+        /// <param name="skimg"></param>
+        /// <returns></returns>
         public static SKImage ToSKImage<TColor, TDepth>(this Emgu.CV.Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
         {
             return SKImage.FromBitmap(image.ToSKBitmap());
         }
 
+        /// <summary>
+        /// Converts Emgu.CV Image to SKBitmap
+        /// </summary>
+        /// <param name="skimg"></param>
+        /// <returns></returns>
         public static SKBitmap ToSKBitmap<TColor, TDepth>(this Emgu.CV.Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
         {
             Type typeFromHandle = typeof(TColor);

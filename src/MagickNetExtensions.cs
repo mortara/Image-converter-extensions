@@ -6,6 +6,14 @@ namespace PMortara.Helpers.ImageConverterExtensions
 {
     public static  class MagickNetExtensions
     {
+        /// <summary>
+        /// Converts IMagickImage to SKImage
+        /// </summary>
+        /// <param name="skimg"></param>
+        /// <returns></returns>
+        /// <ToDo>
+        /// Get rid of Bmp3 re-encoding
+        /// </ToDo>
         public static SKImage ToSKImage(this IMagickImage mimg)
         {
             using (var ms = new MemoryStream())
@@ -16,6 +24,14 @@ namespace PMortara.Helpers.ImageConverterExtensions
             }
         }
 
+        /// <summary>
+        /// Converts IMagickImage to SKBitmap
+        /// </summary>
+        /// <param name="skimg"></param>
+        /// <returns></returns>
+        /// <ToDo>
+        /// Get rid of Bmp3 re-encoding
+        /// </ToDo>
         public static SKBitmap ToSKBitmap(this IMagickImage mimg)
         {
             using (var ms = new MemoryStream())
