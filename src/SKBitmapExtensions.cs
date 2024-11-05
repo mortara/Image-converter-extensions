@@ -52,8 +52,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
             var bmp = skbmp.ToBitmap(PixelFormat.Format32bppArgb);
 
             try
-            {
-              
+            {        
                 return BitmapExtension.ToImage<TColor, TDepth>(bmp);
             }
             finally
@@ -71,11 +70,13 @@ namespace PMortara.Helpers.ImageConverterExtensions
         public static System.Drawing.Bitmap ToBitmap(this SKBitmap skiaBitmap, System.Drawing.Imaging.PixelFormat pixelFormat)
         {
             using (var pixmap = skiaBitmap.PeekPixels())
-            using (var image = SKImage.FromPixels(pixmap))
             {
-                var bmp = image.ToBitmap(pixelFormat);
-                GC.KeepAlive(skiaBitmap);
-                return bmp;
+                using (var image = SKImage.FromPixels(pixmap))
+                {
+                    var bmp = image.ToBitmap(pixelFormat);
+                    GC.KeepAlive(skiaBitmap);
+                    return bmp;
+                }
             }
         }
     }

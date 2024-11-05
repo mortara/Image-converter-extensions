@@ -39,9 +39,10 @@ namespace PMortara.Helpers.ImageConverterExtensions
             }
             else
             {
-                using Image<Bgra, byte> image2 = image.Convert<Bgra, byte>();
-                return image2.ToSKBitmap();
-               
+                using (var image2 = image.Convert<TColor, TDepth>())
+                {
+                    return image2.ToSKBitmap();
+                }
             }
 
             var skbmp = new SKBitmap(image.Width, image.Height, colorType, alphaType);
