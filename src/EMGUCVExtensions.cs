@@ -2,6 +2,11 @@
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using SkiaSharp;
+using System.Windows.Media.Imaging;
+using Microsoft.UI.Xaml.Media.Imaging;
+using System.IO;
+using System;
+using CommunityToolkit.HighPerformance;
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {
@@ -56,5 +61,34 @@ namespace PMortara.Helpers.ImageConverterExtensions
 
             return skbmp;
         }
+
+        /// <summary>
+        /// Converts Emgu.CV image to Microsoft.UI.Xaml.Media.Imaging.BitmapImage
+        /// </summary>
+        /// <typeparam name="TColor"></typeparam>
+        /// <typeparam name="TDepth"></typeparam>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        /// <ToDo>
+        /// Get rid of ToJpegData() call
+        /// Get rid of AsStream() call
+        /// </ToDo>
+        public static Microsoft.UI.Xaml.Media.Imaging.BitmapImage ToBitmapImage<TColor, TDepth>(this Emgu.CV.Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
+        {
+            var bitmapImage = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage();
+
+            var bytes = image.ToJpegData();
+
+            var ros = new ReadOnlyMemory<byte>(bytes);    
+
+            using (var stream = ros.AsStream())
+            {
+                bitmapImage.SetSource(stream.AsRandomAccessStream());
+            }
+
+            return bitmapImage;
+
+        }
+        
     }
 }
