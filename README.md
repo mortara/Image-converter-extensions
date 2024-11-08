@@ -6,9 +6,10 @@ Currently is covers images of:
 - SkiaSharp (https://github.com/mono/SkiaSharp)
 - EMGU.CV (https://github.com/emgucv/emgucv)
 - Magick.NET (https://github.com/dlemstra/Magick.NET)
+- Microsoft.UI.Xaml.Media.Imaging.BitmapImage
+- System.Drawing
 
-
-Supported conersions:
+Supported conversions:
 
  - SkiaSharp.SKImage <-> ImageMagick.IMagickImage
  - SkiaSharp.SKImage <-> Emgu.CV.Image
@@ -22,7 +23,10 @@ Supported conersions:
 
 More extensions are about to come.
 
+# Usage
 
+I have no intentions to publish this as a nuget package or something like that. The best way to use it,
+is probably to just copy and paste the parts you really need into your own project.
 
 # License
 
