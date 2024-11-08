@@ -1,6 +1,8 @@
-﻿using ImageMagick;
+﻿using Emgu.CV;
+using ImageMagick;
 using SkiaSharp;
 using System.IO;
+using Windows.Graphics.Imaging;
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {
@@ -40,6 +42,29 @@ namespace PMortara.Helpers.ImageConverterExtensions
                 ms.Position = 0;
                 return SKBitmap.Decode(ms);
             }
+        }
+
+        /// <summary>
+        /// Converts a IMagickIMage into a Microsoft.UI.Xaml.Media.Imaging.BitmapImage
+        /// </summary>
+        /// <param name="mimg"></param>
+        /// <returns></returns>
+        /// <ToDo>
+        /// Get rid of Bmp3 re-encoding
+        /// </ToDo>
+        public static Microsoft.UI.Xaml.Media.Imaging.BitmapImage ToBitmapImage(this IMagickImage mimg)
+        {
+            var bitmapImage = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage();
+
+            using (var ms = new MemoryStream())
+            {
+                mimg.Write(ms, MagickFormat.Bmp3);
+                ms.Position = 0;
+                bitmapImage.SetSource(ms.AsRandomAccessStream());
+            }
+
+            return bitmapImage;
+
         }
     }
 }

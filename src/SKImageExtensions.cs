@@ -79,5 +79,29 @@ namespace PMortara.Helpers.ImageConverterExtensions
             bitmap.UnlockBits(data);
             return bitmap;
         }
+
+        /// <summary>
+        /// Converts a SKImage into a Microsoft.UI.Xaml.Media.Imaging.BitmapImage
+        /// </summary>
+        /// <param name="mimg"></param>
+        /// <returns></returns>
+        /// <ToDo>
+        /// Get rid of re-encoding
+        /// </ToDo>
+        public static Microsoft.UI.Xaml.Media.Imaging.BitmapImage ToBitmapImage(this SKImage skiaImage)
+        {
+            var bitmapImage = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage();
+
+            var encoded = skiaImage.Encode();
+            using (var ms = new MemoryStream()) 
+            {
+                encoded.SaveTo(ms);
+                ms.Seek(0, SeekOrigin.Begin);
+                bitmapImage.SetSource(ms.AsRandomAccessStream());
+            }
+
+            return bitmapImage;
+
+        }
     }
 }
