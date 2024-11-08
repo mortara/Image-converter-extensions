@@ -20,12 +20,12 @@
 
   <ItemGroup>
 	  <PackageReference Include="Emgu.CV.Bitmap" Version="4.9.0.5494" />
-	  <PackageReference Include="Magick.NET-Q16-x64" Version="14.0.0" />
+	  <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.0.0" />
 	  <PackageReference Include="Magick.NET.Core" Version="14.0.0" />
-	  <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="3.0.0-preview.5.4" />
-	  <PackageReference Include="SkiaSharp.NativeAssets.WinUI" Version="3.0.0-preview.5.4" />
-	  <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="3.0.0-preview.5.4" />
-	  <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="3.0.0-preview.5.4" />
+	  <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="3.118.0-preview.1.2" />
+	  <PackageReference Include="SkiaSharp.NativeAssets.WinUI" Version="3.118.0-preview.1.2" />
+	  <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="3.118.0-preview.1.2" />
+	  <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="3.118.0-preview.1.2" />
 	  <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240923002" />
 	  <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
 	  <PackageReference Include="CommunityToolkit.HighPerformance" Version="8.4.0-preview1" />
