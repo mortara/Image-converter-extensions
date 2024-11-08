@@ -2,7 +2,11 @@
 using ImageMagick;
 using SkiaSharp;
 using System.IO;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Graphics.Imaging;
+using System.Buffers;
+using Windows.Storage.Streams;
+using SkiaSharp.Views.Windows;
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {
@@ -65,6 +69,11 @@ namespace PMortara.Helpers.ImageConverterExtensions
 
             return bitmapImage;
 
+        }
+
+        public static WriteableBitmap ToWriteableBitmap(this IMagickImage magickimage)
+        {
+            return magickimage.ToSKBitmap().ToWriteableBitmap();
         }
     }
 }

@@ -4,6 +4,7 @@ using ImageMagick.Factories;
 using SkiaSharp;
 using System.Drawing.Imaging;
 using System.IO;
+using SkiaSharp.Views.Windows;
 
 
 namespace PMortara.Helpers.ImageConverterExtensions
@@ -80,20 +81,18 @@ namespace PMortara.Helpers.ImageConverterExtensions
             return bitmap;
         }
 
+        
         /// <summary>
-        /// Converts a SKImage into a Microsoft.UI.Xaml.Media.Imaging.BitmapImage
+        /// Converts a SKImage to a BitmapImage. Kind of useless, since SKImage has it's own ToWriteableBitmap()
         /// </summary>
-        /// <param name="mimg"></param>
+        /// <param name="skiaImage"></param>
         /// <returns></returns>
-        /// <ToDo>
-        /// Get rid of re-encoding
-        /// </ToDo>
         public static Microsoft.UI.Xaml.Media.Imaging.BitmapImage ToBitmapImage(this SKImage skiaImage)
         {
             var bitmapImage = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage();
 
             var encoded = skiaImage.Encode();
-            using (var ms = new MemoryStream()) 
+            using (var ms = new MemoryStream())
             {
                 encoded.SaveTo(ms);
                 ms.Seek(0, SeekOrigin.Begin);

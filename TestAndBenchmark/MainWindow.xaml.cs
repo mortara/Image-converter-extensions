@@ -12,6 +12,8 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using PMortara.Helpers.ImageConverterExtensions;
 using SkiaSharp;
+using SkiaSharp.Views.Desktop;
+using SkiaSharp.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -66,7 +68,7 @@ namespace TestAndBenchmark
             var path = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "Assets", "DSC_6947.JPG");
 
             var skimg = SKImage.FromEncodedData(path);
-            AddConversionResult("SKImage -> BitmapImage", skimg.ToBitmapImage());
+            AddConversionResult("SKImage -> ToWriteableBitmap", skimg.ToWriteableBitmap());
 
             var _EMGUCVIMage = new Image<Bgra, byte>(path);
             AddConversionResult("EMGUCV Image -> BitmapImage", _EMGUCVIMage.ToBitmapImage());
@@ -80,9 +82,12 @@ namespace TestAndBenchmark
             var imagemagickimage = skimg.ToMagickImage();
             AddConversionResult("SKImage -> MagickImage -> BitmapImage", imagemagickimage.ToBitmapImage());
 
+            var sysbitmap = skimg.ToBitmap();
+            AddConversionResult("SKImage -> Bitmap -> BitmapImage", sysbitmap.ToBitmapImage());
+
         }
 
-        private void AddConversionResult(String name, BitmapImage bmp)
+        private void AddConversionResult(String name, BitmapSource bmp)
         {
             var sp = new StackPanel();
 
@@ -90,13 +95,15 @@ namespace TestAndBenchmark
             tb.Text = name;
             tb.MaxWidth = 200;
             tb.TextWrapping = TextWrapping.Wrap;    
+            tb.VerticalAlignment = VerticalAlignment.Bottom;
             sp.Children.Add(tb);
 
             var img = new Image();
             img.Margin = new Thickness(10);
             img.Width = 200;
             img.Height = 200;
-            img.Stretch = Stretch.UniformToFill;
+            img.Stretch = Stretch.Uniform;
+            img.VerticalAlignment = VerticalAlignment.Bottom;
             img.Source = bmp;   
             sp.Children.Add(img);
 
@@ -105,6 +112,7 @@ namespace TestAndBenchmark
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            Benchmarks.Results = String.Empty;
             RunBenchmarks();
         }
     }

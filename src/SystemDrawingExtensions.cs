@@ -1,7 +1,9 @@
-﻿using SkiaSharp;
+﻿using Emgu.CV;
+using Microsoft.UI.Xaml.Media.Imaging;
+using SkiaSharp;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Windows.Media.Imaging;
+
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {
@@ -38,6 +40,44 @@ namespace PMortara.Helpers.ImageConverterExtensions
             }
         }
 
+        /// <summary>
+        /// Converts a System.Drawing.Bitmap to a Microsoft.UI.Xaml.Media.Imaging.BitmapImage        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <returns></returns>
+        public static Microsoft.UI.Xaml.Media.Imaging.BitmapImage ToBitmapImage(this Bitmap bitmap)
+        {
+            var bitmapImage = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage();
+          
+            var format = ImageFormat.Bmp;
+
+            using (var stream = new MemoryStream())
+            {
+                bitmap.Save(stream, format);
+                stream.Seek(0, SeekOrigin.Begin);
+                bitmapImage.SetSource(stream.AsRandomAccessStream());
+            }
+
+            return bitmapImage;
+
+        }
+
+        public static WriteableBitmap ToWriteableBitmap(this Bitmap bitmap)
+        {
+            var bitmapImage = new WriteableBitmap(bitmap.Width,bitmap.Height);
+
+            var format = ImageFormat.Bmp;
+
+            using (var stream = new MemoryStream())
+            {
+                bitmap.Save(stream, format);
+                stream.Seek(0, SeekOrigin.Begin);
+                bitmapImage.SetSource(stream.AsRandomAccessStream());
+            }
+
+            return bitmapImage;
+
+        }
+
         public static Bitmap ConvertPixelFormat(this Bitmap source, PixelFormat targetFormat)
         {
             var bmpnew = new Bitmap(source.Width, source.Height, targetFormat);
@@ -49,23 +89,6 @@ namespace PMortara.Helpers.ImageConverterExtensions
             return bmpnew;
         }
 
-        public static FormatConvertedBitmap ConvertPixelFormat(this BitmapSource source, System.Windows.Media.PixelFormat targetFormat)
-        {
-            var newFormatedBitmapSource = new FormatConvertedBitmap();
-
-            // BitmapSource objects like FormatConvertedBitmap can only have their properties
-            // changed within a BeginInit/EndInit block.
-            newFormatedBitmapSource.BeginInit();
-
-            // Use the BitmapSource object defined above as the source for this new
-            // BitmapSource (chain the BitmapSource objects together).
-            newFormatedBitmapSource.Source = source;
-
-            // Set the new format to Gray32Float (grayscale).
-            newFormatedBitmapSource.DestinationFormat = targetFormat;
-            newFormatedBitmapSource.EndInit();
-
-            return newFormatedBitmapSource;
-        }
+       
     }
 }

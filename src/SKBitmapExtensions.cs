@@ -81,7 +81,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         }
 
         /// <summary>
-        /// Converts a SKBitmap into a Microsoft.UI.Xaml.Media.Imaging.BitmapImage
+        /// Converts a SKBitmap into a Microsoft.UI.Xaml.Media.Imaging.BitmapImage. Kind of useless, since SKBitmap has it's own ToWriteableBitmap()
         /// </summary>
         /// <param name="mimg"></param>
         /// <returns></returns>
@@ -90,6 +90,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// </ToDo>
         public static Microsoft.UI.Xaml.Media.Imaging.BitmapImage ToBitmapImage(this SKBitmap skiaBitmap)
         {
+
             var bitmapImage = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage();
 
             using (var ms = new MemoryStream())
