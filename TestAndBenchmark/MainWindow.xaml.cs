@@ -19,6 +19,8 @@ namespace TestAndBenchmark
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        public ViewModel ViewModel { get; set; } = new ViewModel();
+
         private String _testImage = String.Empty;
         private Benchmarks _benchmark  = new Benchmarks();
 
@@ -30,8 +32,6 @@ namespace TestAndBenchmark
 
             LoadImage();
             TestConversions();
-
-
         }
 
         public void RunBenchmarks()
@@ -44,8 +44,7 @@ namespace TestAndBenchmark
         public void LoadImage()
         {
             var path = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "Assets", "DSC_6947.JPG");
-
-            imagecontrol.Source = new BitmapImage(new Uri(path, UriKind.Absolute));
+            AddConversionResult("Original image", new BitmapImage(new Uri(path, UriKind.Absolute)));
 
         }
 
@@ -75,25 +74,10 @@ namespace TestAndBenchmark
 
         private void AddConversionResult(String name, BitmapSource bmp)
         {
-            var sp = new StackPanel();
-
-            var tb = new TextBlock();
-            tb.Text = name;
-            tb.MaxWidth = 200;
-            tb.TextWrapping = TextWrapping.Wrap;    
-            tb.VerticalAlignment = VerticalAlignment.Bottom;
-            sp.Children.Add(tb);
-
-            var img = new Image();
-            img.Margin = new Thickness(10);
-            img.Width = 200;
-            img.Height = 200;
-            img.Stretch = Stretch.Uniform;
-            img.VerticalAlignment = VerticalAlignment.Bottom;
-            img.Source = bmp;   
-            sp.Children.Add(img);
-
-            resultgrid.Children.Add(sp);
+            var result = new ResultViewModel();
+            result.Text = name;
+            result.Image = bmp;
+            ViewModel.Results.Add(result);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

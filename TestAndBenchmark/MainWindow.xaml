@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:TestAndBenchmark"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
 
     <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10">
@@ -14,13 +14,29 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <VariableSizedWrapGrid Orientation="Horizontal" x:Name="resultgrid" Margin="0,10,0,0" HorizontalChildrenAlignment="Left" VerticalChildrenAlignment="Bottom">
-            <StackPanel>
-                <TextBlock Text="Original image:" Margin="0,10,0,0"/>
+        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Results, Mode=OneWay}"  Margin="0,3,0,0">
+            <ItemsRepeater.ItemTemplate>
+                <DataTemplate x:DataType="local:ResultViewModel">
+                    <Border>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Margin="0,0,0,5" FontSize="10" Text="{x:Bind Text, Mode=OneWay}"/>
+                            <Image Grid.Row="1" Source="{x:Bind Image, Mode=OneWay}" Height="200" Width="200" Stretch="Uniform" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
 
-                <Image Margin="10" Height="200" Width="200" Stretch="Uniform" x:Name="imagecontrol"/>
-            </StackPanel>
-        </VariableSizedWrapGrid>
+            <ItemsRepeater.Layout>
+                <controls:WrapLayout Orientation="Horizontal" 
+                             VerticalSpacing="1"
+                             HorizontalSpacing="1"/>
+            </ItemsRepeater.Layout>
+
+        </ItemsRepeater>
 
         <StackPanel Grid.Row="1">
             <Button Click="Button_Click" >Run benchmarks</Button>
