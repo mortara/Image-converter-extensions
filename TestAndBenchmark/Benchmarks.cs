@@ -17,7 +17,7 @@ using System.Runtime.CompilerServices;
 
 namespace TestAndBenchmark
 {
-   
+
 
     public partial class Benchmarks : ObservableObject
     {
