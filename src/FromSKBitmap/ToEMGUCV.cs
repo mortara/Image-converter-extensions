@@ -1,11 +1,6 @@
 ﻿using Emgu.CV;
-using ImageMagick;
-using ImageMagick.Factories;
-using PMortara.Helpers.ImageConverterExtensions;
 using SkiaSharp;
-using SkiaSharp.Views.Desktop;
 using System.Drawing.Imaging;
-using System.IO;
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {

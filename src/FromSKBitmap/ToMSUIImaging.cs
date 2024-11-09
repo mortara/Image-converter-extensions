@@ -1,10 +1,6 @@
 ﻿using SkiaSharp;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {
@@ -18,10 +14,10 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Get rid of re-encoding
         /// </ToDo>
-        public static Microsoft.UI.Xaml.Media.Imaging.BitmapImage ToBitmapImage(this SKBitmap skiaBitmap)
+        public static BitmapImage ToBitmapImage(this SKBitmap skiaBitmap)
         {
 
-            var bitmapImage = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage();
+            var bitmapImage = new BitmapImage();
 
             using (var ms = new MemoryStream())
             {
