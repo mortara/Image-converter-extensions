@@ -64,12 +64,13 @@ namespace TestAndBenchmark
             RunTests("SKImage to WriteableBitmap", () => { return _SKImage.ToWriteableBitmap(); });
 
             RunTests("SKImage to MagickImage", () => { return _SKImage.ToMagickImage(); });
-
+           
             RunTests("SKImage to System.Drawing.Bitmap", () => { return _SKImage.ToBitmap(System.Drawing.Imaging.PixelFormat.Format32bppArgb); });
 
             RunTests("Bitmap to BitmapImage", () => { return _SysBitmap.ToBitmapImage(); });
-        
-        
+
+            RunTests("SKBitmap to MagickImage", () => { return _SKBitmap.ToMagickImage(); });
+
         }
 
         public void RunTests(String name, Func<object> action, int cnt = 10)

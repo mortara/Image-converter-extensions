@@ -18,13 +18,13 @@
             <ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="local:ResultViewModel">
                     <Border>
-                        <Grid>
+                        <Grid MaxWidth="200">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Margin="0,0,0,5" FontSize="10" Text="{x:Bind Text, Mode=OneWay}"/>
-                            <Image Grid.Row="1" Source="{x:Bind Image, Mode=OneWay}" Height="200" Width="200" Stretch="Uniform" />
+                            <TextBlock Margin="0,0,0,5" FontSize="10" Text="{x:Bind Text, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                            <Image Grid.Row="1" Source="{x:Bind Image, Mode=OneWay}" Height="200" Width="200" Stretch="Uniform" VerticalAlignment="Top"/>
                         </Grid>
                     </Border>
                 </DataTemplate>

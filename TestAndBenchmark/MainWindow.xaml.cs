@@ -10,6 +10,7 @@ using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 using SkiaSharp.Views.Windows;
 using System;
+using System.Drawing;
 using System.IO;
 
 namespace TestAndBenchmark
@@ -68,7 +69,19 @@ namespace TestAndBenchmark
             AddConversionResult("SKImage -> MagickImage -> BitmapImage", imagemagickimage.ToBitmapImage());
 
             var sysbitmap = skimg.ToBitmap();
-            AddConversionResult("SKImage -> Bitmap -> BitmapImage", sysbitmap.ToBitmapImage());
+            AddConversionResult("SKImage -> ToBitmap -> BitmapImage", sysbitmap.ToBitmapImage());
+
+            var skbitmap = SKBitmap.FromImage(skimg);
+            var emgucv2 = skbitmap.AsEMGUCVImage();
+            emgucv2.Draw("T E S T ! !", new Point(1000, 1000), Emgu.CV.CvEnum.FontFace.HersheyPlain, 50, new Bgra(255,0,0,255), 25 );
+            AddConversionResult("SKImage -> SKBitmap.AsEMGUCV -> BitmapImage", emgucv2.ToBitmapImage());
+
+            var skbitmap2 = SKBitmap.FromImage(skimg);
+            var sysbmp = skbitmap2.AsBitmap();
+            AddConversionResult("SKBitmap -> AsBitmap -> BitmapImage", sysbmp.ToBitmapImage());
+
+            var magicimg2 = skbitmap2.ToMagickImage();
+            AddConversionResult("SKBitmap -> ToMagickImage -> BitmapImage", magicimg2.ToBitmapImage());
 
         }
 
