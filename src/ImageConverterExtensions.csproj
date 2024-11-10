@@ -16,6 +16,7 @@
     <Authors>Patrick Mortara</Authors>
     <Description>A small library of extensions to convert images between different formats.</Description>
     <Copyright>2024 Patrick Mortara</Copyright>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

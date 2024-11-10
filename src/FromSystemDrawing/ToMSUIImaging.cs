@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml.Media.Imaging;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Windows.Media;
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {
@@ -43,5 +44,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
             return bitmapImage;
 
         }
+
+        
     }
 }

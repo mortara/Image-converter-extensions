@@ -1,5 +1,7 @@
 ﻿using Emgu.CV;
+using Emgu.CV.Structure;
 using SkiaSharp;
+using SkiaSharp.Views.Windows;
 using System.Drawing.Imaging;
 
 namespace PMortara.Helpers.ImageConverterExtensions
@@ -27,5 +29,6 @@ namespace PMortara.Helpers.ImageConverterExtensions
                 bmp.Dispose();
             }
         }
+
     }
 }

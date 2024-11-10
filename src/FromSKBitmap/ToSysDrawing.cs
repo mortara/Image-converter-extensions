@@ -23,5 +23,14 @@ namespace PMortara.Helpers.ImageConverterExtensions
                 }
             }
         }
+
+        public static Bitmap AsBitmap(this SKBitmap skiaBitmap)
+        {
+            var stride = skiaBitmap.ColorType.GetBytesPerPixel() * skiaBitmap.Width;
+
+            var pixformat = PixelFormat.Format32bppArgb;
+
+            return new Bitmap(skiaBitmap.Width, skiaBitmap.Height, stride, pixformat, skiaBitmap.GetPixels());
+        }
     }
 }

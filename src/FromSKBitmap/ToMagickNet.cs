@@ -15,26 +15,29 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <param name="skimg"></param>
         /// <returns></returns>
         /// <ToDo>
-        /// Get rid of that ToBitmap() step.
+        /// Improve handling of different pixelformats
         /// </ToDo>
         public static IMagickImage ToMagickImage(this SKBitmap skbmp)
         {
-            var bmp = skbmp.ToBitmap();
-            try
+            var pixels = skbmp.GetPixelSpan();
+            var settings = new MagickReadSettings();
+            settings.Width = (uint)skbmp.Width;
+            settings.Height = (uint)skbmp.Height;
+         
+            switch (skbmp.ColorType)
             {
-                var f = new MagickFactory();
-
-                using (var ms = new MemoryStream())
-                {
-                    bmp.Save(ms, ImageFormat.Bmp);
-                    ms.Position = 0;
-                    return new MagickImage(f.Image.Create(ms));
-                }
+                case SKColorType.Rgba8888:
+                    settings.Depth = 8;
+                    settings.Format = MagickFormat.Rgba;
+                    break;
+                case SKColorType.Bgra8888:
+                    settings.Depth = 8;
+                    settings.Format = MagickFormat.Bgra;
+                    break;
             }
-            finally
-            {
-                bmp?.Dispose();
-            }
+            
+            return new MagickImage(pixels, settings);
+          
         }
     }
 }

@@ -17,7 +17,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <param name="image"></param>
         /// <returns></returns>
         /// <ToDo>
-        /// Get rid of that ToBitmap() step
+        /// Get rid of that AsBitmap() step
         /// </ToDo>
         public static Microsoft.UI.Xaml.Media.Imaging.BitmapImage ToBitmapImage<TColor, TDepth>(this Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
         {
