@@ -46,7 +46,6 @@ namespace TestAndBenchmark
         {
             var path = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "Assets", "DSC_6947.JPG");
             AddConversionResult("Original image", new BitmapImage(new Uri(path, UriKind.Absolute)));
-
         }
 
         public void TestConversions()
