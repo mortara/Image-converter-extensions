@@ -1,5 +1,6 @@
 ﻿using ImageMagick;
 using Microsoft.UI.Xaml.Media.Imaging;
+using SkiaSharp;
 using SkiaSharp.Views.Windows;
 using System.IO;
 using Windows.Graphics.Imaging;
@@ -33,7 +34,17 @@ namespace PMortara.Helpers.ImageConverterExtensions
 
         public static WriteableBitmap ToWriteableBitmap(this IMagickImage magickimage)
         {
-            return magickimage.ToSKBitmap().ToWriteableBitmap();
+            var bitmapImage = new WriteableBitmap((int)magickimage.Width, (int)magickimage.Height);
+
+            using (var ms = new MemoryStream())
+            {
+                magickimage.Write(ms, MagickFormat.Bmp3);
+                ms.Seek(0, SeekOrigin.Begin);
+                bitmapImage.SetSource(ms.AsRandomAccessStream());
+            }
+
+            return bitmapImage;
+
         }
 
         

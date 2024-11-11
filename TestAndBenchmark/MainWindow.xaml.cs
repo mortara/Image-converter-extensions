@@ -57,31 +57,33 @@ namespace TestAndBenchmark
             AddConversionResult("SKImage -> ToWriteableBitmap", skimg.ToWriteableBitmap());
 
             var _EMGUCVIMage = new Image<Bgra, byte>(path);
-            AddConversionResult("EMGUCV Image -> BitmapImage", _EMGUCVIMage.ToBitmapImage());
+            AddConversionResult("EMGUCV Image -> ToBitmapImage", _EMGUCVIMage.ToBitmapImage());
 
             var _MagickImage = new MagickImage(path);
-            AddConversionResult("MagickIMage -> BitmapImage", _MagickImage.ToBitmapImage());
+            AddConversionResult("MagickImage -> ToBitmapImage", _MagickImage.ToBitmapImage());
+
+            AddConversionResult("MagickImage -> ToWriteableBitmap", _MagickImage.ToWriteableBitmap());
 
             var emgucvimg = skimg.ToEMGUImage<Bgra, byte>();
-            AddConversionResult("SKImage -> EMGUCV Image -> BitmapImage", emgucvimg.ToBitmapImage());
+            AddConversionResult("SKImage -> EMGUCV Image -> ToBitmapImage", emgucvimg.ToBitmapImage());
 
             var imagemagickimage = skimg.ToMagickImage();
-            AddConversionResult("SKImage -> MagickImage -> BitmapImage", imagemagickimage.ToBitmapImage());
+            AddConversionResult("SKImage -> MagickImage -> ToBitmapImage", imagemagickimage.ToBitmapImage());
 
             var sysbitmap = skimg.ToBitmap();
-            AddConversionResult("SKImage -> ToBitmap -> BitmapImage", sysbitmap.ToBitmapImage());
+            AddConversionResult("SKImage -> ToBitmap -> ToBitmapImage", sysbitmap.ToBitmapImage());
 
             var skbitmap = SKBitmap.FromImage(skimg);
             var emgucv2 = skbitmap.AsEMGUCVImage();
             emgucv2.Draw("T E S T ! !", new Point(1000, 1000), Emgu.CV.CvEnum.FontFace.HersheyPlain, 50, new Bgra(255,0,0,255), 25 );
-            AddConversionResult("SKImage -> SKBitmap.AsEMGUCV -> BitmapImage", emgucv2.ToBitmapImage());
+            AddConversionResult("SKImage -> SKBitmap.AsEMGUCV -> ToBitmapImage", emgucv2.ToBitmapImage());
 
             var skbitmap2 = SKBitmap.FromImage(skimg);
             var sysbmp = skbitmap2.AsBitmap();
-            AddConversionResult("SKBitmap -> AsBitmap -> BitmapImage", sysbmp.ToBitmapImage());
+            AddConversionResult("SKBitmap -> AsBitmap -> ToBitmapImage", sysbmp.ToBitmapImage());
 
             var magicimg2 = skbitmap2.ToMagickImage();
-            AddConversionResult("SKBitmap -> ToMagickImage -> BitmapImage", magicimg2.ToBitmapImage());
+            AddConversionResult("SKBitmap -> ToMagickImage -> ToBitmapImage", magicimg2.ToBitmapImage());
 
         }
 

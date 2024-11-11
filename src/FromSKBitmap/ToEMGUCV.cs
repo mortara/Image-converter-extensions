@@ -18,7 +18,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// </ToDo>
         public static Image<TColor, TDepth> ToEMGUImage<TColor, TDepth>(this SKBitmap skbmp) where TColor : struct, IColor where TDepth : new()
         {
-            var bmp = skbmp.ToBitmap(PixelFormat.Format32bppArgb);
+            var bmp = skbmp.AsBitmap();
 
             try
             {
@@ -26,7 +26,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
             }
             finally
             {
-                bmp?.Dispose();
+               
             }
         }
 

@@ -51,21 +51,5 @@ namespace PMortara.Helpers.ImageConverterExtensions
 
         }
 
-        /// <summary>
-        /// Converts SKImage to IMagickImage
-        /// </summary>
-        /// <param name="skimg"></param>
-        /// <returns></returns>
-        /// <ToDo>
-        /// Get rid of that FromImage() step.
-        /// </ToDo>
-        public static IMagickImage ToMagickImage_v1(this SKImage skimg)
-        {
-            var bmp = SKBitmap.FromImage(skimg);
-            
-            return bmp.ToMagickImage();
-
-        }
-
     }
 }

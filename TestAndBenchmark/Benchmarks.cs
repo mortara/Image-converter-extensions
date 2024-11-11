@@ -65,8 +65,6 @@ namespace TestAndBenchmark
 
             RunTests("SKImage to MagickImage", () => { return _SKImage.ToMagickImage(); });
 
-            RunTests("SKImage to MagickImage_v1", () => { return _SKImage.ToMagickImage_v1(); });
-
             /*var bmp = SKBitmap.FromImage(_SKImage);
             var img = SKImage.FromBitmap(bmp);
             RunTests("SKImage to MagickImage ", () => { return img.ToMagickImage(); });*/
