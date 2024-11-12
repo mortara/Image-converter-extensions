@@ -5,7 +5,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
 {
     public static class ByteArrayExtensions
     {
-        public static async Task<BitmapImage> GetBitmapAsync(this byte[] data)
+        public static async Task<BitmapImage> GetBitmapImageAsync(this byte[] data)
         {
             var bitmapImage = new BitmapImage();
             using (var imageStream = new MemoryStream())
@@ -19,7 +19,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
            
         }
 
-        public static BitmapImage GetBitmap(this byte[] data)
+        public static BitmapImage GetBitmapImage(this byte[] data)
         {
 
             var bitmapImage = new BitmapImage();

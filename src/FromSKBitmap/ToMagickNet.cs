@@ -1,9 +1,5 @@
 ﻿using ImageMagick;
-using ImageMagick.Factories;
 using SkiaSharp;
-using SkiaSharp.Views.Desktop;
-using System.Drawing.Imaging;
-using System.IO;
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {

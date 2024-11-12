@@ -1,8 +1,6 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
-using Microsoft.Windows.Themes;
 using SkiaSharp;
-using System.Drawing.Imaging;
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {

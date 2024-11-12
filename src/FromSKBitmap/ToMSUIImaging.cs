@@ -12,7 +12,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <param name="mimg"></param>
         /// <returns></returns>
         /// <ToDo>
-        /// Get rid of re-encoding
+        /// Get rid of PNG re-encoding
         /// </ToDo>
         public static BitmapImage ToBitmapImage(this SKBitmap skiaBitmap)
         {

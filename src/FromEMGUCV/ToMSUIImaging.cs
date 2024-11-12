@@ -1,9 +1,5 @@
 ﻿using Emgu.CV;
-using Emgu.CV.CvEnum;
 using Microsoft.UI.Xaml.Media.Imaging;
-using OpenTK.Compute.OpenCL;
-using SkiaSharp;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {

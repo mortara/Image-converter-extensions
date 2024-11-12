@@ -1,9 +1,6 @@
 ﻿using ImageMagick;
 using Microsoft.UI.Xaml.Media.Imaging;
-using SkiaSharp;
-using SkiaSharp.Views.Windows;
 using System.IO;
-using Windows.Graphics.Imaging;
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {
