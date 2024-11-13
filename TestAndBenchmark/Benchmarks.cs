@@ -1,7 +1,4 @@
-﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Jobs;
-using BenchmarkDotNet.Running;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using ImageMagick;
@@ -12,7 +9,6 @@ using SkiaSharp.Views.Windows;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.CompilerServices;
 
 
 namespace TestAndBenchmark
@@ -84,6 +80,9 @@ namespace TestAndBenchmark
             for (int i = 0; i < 10; i++)
             {
                 var bmp = action();
+                
+                if(bmp is IDisposable disposable)
+                    disposable.Dispose();
             }
             sw.Stop();
 

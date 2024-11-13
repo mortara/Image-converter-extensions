@@ -5,9 +5,9 @@ namespace PMortara.Helpers.ImageConverterExtensions
 {
     public static partial class EMGUCVExtensions
     {
-        public static BitmapSource ToWPFBitmapImage<TColor, TDepth>(this Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
+        public static BitmapSource ToWPFBitmapSource<TColor, TDepth>(this Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
         {
-            var bmp = image.ToBitmap();
+            var bmp = image.AsBitmap();
             return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
                     bmp.GetHbitmap(),
                     nint.Zero,

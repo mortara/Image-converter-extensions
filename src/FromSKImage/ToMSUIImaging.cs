@@ -15,14 +15,15 @@ namespace PMortara.Helpers.ImageConverterExtensions
         {
             var bitmapImage = new BitmapImage();
 
-            var encoded = skiaImage.Encode();
-            using (var ms = new MemoryStream())
+            using (var encoded = skiaImage.Encode())
             {
-                encoded.SaveTo(ms);
-                ms.Seek(0, SeekOrigin.Begin);
-                bitmapImage.SetSource(ms.AsRandomAccessStream());
+                using (var ms = new MemoryStream())
+                {
+                    encoded.SaveTo(ms);
+                    ms.Seek(0, SeekOrigin.Begin);
+                    bitmapImage.SetSource(ms.AsRandomAccessStream());
+                }
             }
-
             return bitmapImage;
 
         }
