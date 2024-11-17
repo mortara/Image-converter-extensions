@@ -2,7 +2,7 @@
  
 A collection of (currently very quick & dirty) extension-methods to convert images between different library formats. 
 
-Currently is covers images of: 
+Currently it covers images of: 
 - SkiaSharp (https://github.com/mono/SkiaSharp)
 - EMGU.CV (https://github.com/emgucv/emgucv)
 - Magick.NET (https://github.com/dlemstra/Magick.NET)
