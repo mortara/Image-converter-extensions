@@ -6,12 +6,14 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using PMortara.Helpers.ImageConverterExtensions;
+using SixLabors.ImageSharp;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 using SkiaSharp.Views.Windows;
 using System;
 using System.Drawing;
 using System.IO;
+using Image = SixLabors.ImageSharp.Image;
 
 namespace TestAndBenchmark
 {
@@ -74,7 +76,7 @@ namespace TestAndBenchmark
 
             var skbitmap = SKBitmap.FromImage(skimg);
             var emgucv2 = skbitmap.AsEMGUCVImage();
-            emgucv2.Draw("T E S T ! !", new Point(1000, 1000), Emgu.CV.CvEnum.FontFace.HersheyPlain, 50, new Bgra(255,0,0,255), 25 );
+            emgucv2.Draw("T E S T ! !", new System.Drawing.Point(1000, 1000), Emgu.CV.CvEnum.FontFace.HersheyPlain, 50, new Bgra(255,0,0,255), 25 );
             AddConversionResult("SKImage -> SKBitmap.AsEMGUCV -> ToBitmapImage", emgucv2.ToBitmapImage());
 
             var skbitmap2 = SKBitmap.FromImage(skimg);
@@ -84,6 +86,9 @@ namespace TestAndBenchmark
             var magicimg2 = skbitmap2.ToMagickImage();
             AddConversionResult("SKBitmap -> ToMagickImage -> ToBitmapImage", magicimg2.ToBitmapImage());
 
+
+            var imagesharpimg = Image.Load(path);
+            AddConversionResult("ImageSharp.Image -> ToSKImage -> ToBitmapImage", imagesharpimg.ToSKImage().ToBitmapImage());
         }
 
         private void AddConversionResult(String name, BitmapSource bmp)

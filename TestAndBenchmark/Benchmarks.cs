@@ -3,6 +3,7 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using ImageMagick;
 using PMortara.Helpers.ImageConverterExtensions;
+using SixLabors.ImageSharp;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 using SkiaSharp.Views.Windows;
@@ -24,6 +25,7 @@ namespace TestAndBenchmark
         private SKBitmap _SKBitmap = null;
         private IMagickImage _MagickImage = null;
         private System.Drawing.Bitmap _SysBitmap = null;
+        private Image _ImageSharpImage = null;
 
         [ObservableProperty]
         private String results = String.Empty;
@@ -38,6 +40,7 @@ namespace TestAndBenchmark
             _SKImage = SKImage.FromEncodedData(ImagePath);
             _SKBitmap = SKBitmap.FromImage(_SKImage);
             _MagickImage = new MagickImage(ImagePath);
+            _ImageSharpImage = Image.Load(ImagePath);   
             _SysBitmap = _EMGUCVIMage.ToBitmap();
         }
 
@@ -71,6 +74,7 @@ namespace TestAndBenchmark
 
             RunTests("SKBitmap to MagickImage", () => { return _SKBitmap.ToMagickImage(); });
 
+            RunTests("ImageSharp.Image to SKImage", () => { return _ImageSharpImage.ToSKImage(); });
         }
 
         public void RunTests(String name, Func<object> action, int cnt = 10)

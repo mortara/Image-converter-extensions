@@ -22,8 +22,9 @@
   <ItemGroup>
 	  <PackageReference Include="Emgu.CV.Bitmap" Version="4.9.0.5494" />
 	  <PackageReference Include="Emgu.CV.Wpf" Version="4.9.0.5494" />
-	  <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.1.0" />
-	  <PackageReference Include="Magick.NET.Core" Version="14.1.0" />
+	  <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.2.0" />
+	  <PackageReference Include="Magick.NET.Core" Version="14.2.0" />
+	  <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
 	  <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="3.118.0-preview.1.2" />
 	  <PackageReference Include="SkiaSharp.NativeAssets.WinUI" Version="3.118.0-preview.1.2" />
 	  <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="3.118.0-preview.1.2" />
@@ -32,7 +33,7 @@
     <PackageReference Include="SkiaSharp.Views.WPF" Version="3.118.0-preview.1.2" />
 	  <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241106002" />
 	  <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
-	  <PackageReference Include="CommunityToolkit.HighPerformance" Version="8.4.0-preview1" />
+	  <PackageReference Include="CommunityToolkit.HighPerformance" Version="8.4.0-preview2" />
 	  <PackageReference Include="System.Private.Uri" Version="4.3.2" />
 	  <PackageReference Include="System.Text.Json" Version="9.0.0" />
   </ItemGroup>

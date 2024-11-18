@@ -27,9 +27,10 @@
 
   <ItemGroup>
     <PackageReference Include="Emgu.CV.runtime.windows" Version="4.9.0.5494" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0-preview1" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.1.240916" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0-preview2" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.241112-preview1" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
     <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="3.118.0-preview.1.2" />
     <PackageReference Include="SkiaSharp.NativeAssets.WinUI" Version="3.118.0-preview.1.2" />
     <Manifest Include="$(ApplicationManifest)" />

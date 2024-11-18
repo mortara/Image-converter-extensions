@@ -3,7 +3,7 @@ using System.IO;
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {
-    public static class ByteArrayExtensions
+    public static partial class ByteArrayExtensions
     {
         public static async Task<BitmapImage> GetBitmapImageAsync(this byte[] data)
         {
