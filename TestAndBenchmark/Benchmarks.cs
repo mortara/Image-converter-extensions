@@ -80,6 +80,8 @@ namespace TestAndBenchmark
         public void RunTests(String name, Func<object> action, int cnt = 10)
         {
             Debug.Print("Start test: " + name);
+            GC.Collect();
+            var mem = GC.GetAllocatedBytesForCurrentThread();
             var sw = Stopwatch.StartNew();
             for (int i = 0; i < 10; i++)
             {
@@ -89,8 +91,10 @@ namespace TestAndBenchmark
                     disposable.Dispose();
             }
             sw.Stop();
+            GC.Collect();
+            var usage = (float)(GC.GetAllocatedBytesForCurrentThread() - mem) / 1024f;
 
-            AddResult($"{cnt} x {name}: {sw.ElapsedMilliseconds} ms");
+            AddResult($"{cnt} x {name}: {sw.ElapsedMilliseconds} ms. Memory usage: {usage} KB");
         }
 
         private void AddResult(String text)

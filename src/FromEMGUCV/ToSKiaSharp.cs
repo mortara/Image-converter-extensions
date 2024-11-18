@@ -14,7 +14,8 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <returns></returns>
         public static SKImage ToSKImage<TColor, TDepth>(this Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
         {
-            return SKImage.FromBitmap(image.ToSKBitmap());
+            using(var bmp = image.ToSKBitmap())
+                return SKImage.FromBitmap(bmp);
         }
 
         /// <summary>

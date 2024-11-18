@@ -15,13 +15,12 @@ namespace PMortara.Helpers.ImageConverterExtensions
         {
             var bitmapImage = new BitmapImage();
 
-            var format = ImageFormat.Bmp;
-
             using (var stream = new MemoryStream())
             {
-                bitmap.Save(stream, format);
+                bitmap.Save(stream, ImageFormat.Bmp);
                 stream.Seek(0, SeekOrigin.Begin);
-                bitmapImage.SetSource(stream.AsRandomAccessStream());
+                using (var ras = stream.AsRandomAccessStream())
+                    bitmapImage.SetSource(ras);
             }
 
             return bitmapImage;
@@ -31,14 +30,13 @@ namespace PMortara.Helpers.ImageConverterExtensions
         public static WriteableBitmap ToWriteableBitmap(this Bitmap bitmap)
         {
             var bitmapImage = new WriteableBitmap(bitmap.Width, bitmap.Height);
-            
-            var format = ImageFormat.Bmp;
 
             using (var stream = new MemoryStream())
             {
-                bitmap.Save(stream, format);
+                bitmap.Save(stream, ImageFormat.Bmp);
                 stream.Seek(0, SeekOrigin.Begin);
-                bitmapImage.SetSource(stream.AsRandomAccessStream());
+                using(var ras = stream.AsRandomAccessStream())
+                    bitmapImage.SetSource(ras);
             }
 
             return bitmapImage;
