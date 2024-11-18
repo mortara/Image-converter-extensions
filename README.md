@@ -6,6 +6,7 @@ Currently it covers images of:
 - SkiaSharp (https://github.com/mono/SkiaSharp)
 - EMGU.CV (https://github.com/emgucv/emgucv)
 - Magick.NET (https://github.com/dlemstra/Magick.NET)
+- ImageSharp (https://sixlabors.com/products/imagesharp/)
 - Microsoft.UI.Xaml.Media.Imaging.BitmapImage
 - System.Windows.Media.Imaging
 - System.Drawing
@@ -34,6 +35,10 @@ is probably to just copy and paste the parts you really need into your own proje
 
 All conversions that start with ToXXXX() (e.g. ToSKImage()) are meant to create a new copy of the image.
 Later i want to also add AsXXXX() function that do not create a new copy.
+
+# Contribution
+
+Any kinf of contribution is highly welcomed and appriciated!
 
 # License
 
