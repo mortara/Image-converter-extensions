@@ -26,6 +26,7 @@ namespace TestAndBenchmark
         private IMagickImage _MagickImage = null;
         private System.Drawing.Bitmap _SysBitmap = null;
         private Image _ImageSharpImage = null;
+        private byte[] _byteArrayImage = null;
 
         [ObservableProperty]
         private String results = String.Empty;
@@ -42,6 +43,8 @@ namespace TestAndBenchmark
             _MagickImage = new MagickImage(ImagePath);
             _ImageSharpImage = Image.Load(ImagePath);   
             _SysBitmap = _EMGUCVIMage.ToBitmap();
+
+            _byteArrayImage = File.ReadAllBytes(ImagePath);
         }
 
         public void RunBenchmarks()
@@ -75,6 +78,9 @@ namespace TestAndBenchmark
             RunTests("SKBitmap to MagickImage", () => { return _SKBitmap.ToMagickImage(); });
 
             RunTests("ImageSharp.Image to SKImage", () => { return _ImageSharpImage.ToSKImage(); });
+
+            RunTests("byte[] to BitmapImage", () => { return _byteArrayImage.ToBitmapImage(); });
+
         }
 
         public void RunTests(String name, Func<object> action, int cnt = 10)

@@ -11,7 +11,7 @@ namespace PMortara.Helpers.ImageConverterExtensions.FromByteArray
     {
         public static System.Drawing.Image ToDrawingImage(this byte[] byteArrayIn)
         {
-            using (MemoryStream ms = new MemoryStream(byteArrayIn))
+            using (var ms = new MemoryStream(byteArrayIn))
             {
                 System.Drawing.Image returnImage = System.Drawing.Image.FromStream(ms);
                 return returnImage;
