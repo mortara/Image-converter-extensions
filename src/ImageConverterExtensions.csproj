@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
-    <Platforms>x86;x64</Platforms>
+    <Platforms>x86;x64;ARM64;AnyCPU</Platforms>
     <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
 
     <ImplicitUsings>enable</ImplicitUsings>
