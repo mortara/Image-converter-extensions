@@ -1,6 +1,8 @@
 ﻿using SkiaSharp;
 using System.IO;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Imageflow.Fluent;
+using System.Security.Cryptography;
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {
@@ -16,18 +18,22 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// </ToDo>
         public static BitmapImage ToBitmapImage(this SKBitmap skiaBitmap)
         {
-
-            var bitmapImage = new BitmapImage();
-
-            using (var ms = new MemoryStream())
+            using (var pixmap = skiaBitmap.PeekPixels())
             {
-                skiaBitmap.Encode(ms, SKEncodedImageFormat.Png, 100);
-                ms.Position = 0;
-                bitmapImage.SetSource(ms.AsRandomAccessStream());
+                var filters = SKPngEncoderFilterFlags.NoFilters;
+                int compress = 0;
+                var options = new SKPngEncoderOptions(filters, compress);
+                using (var data = pixmap.Encode(options))
+                {
+                    var bitmapImage = new BitmapImage();
+                    using(var stream = data.AsStream())
+                        using (var ras = stream.AsRandomAccessStream())
+                            bitmapImage.SetSource(ras);
+                    return bitmapImage;
+                }
             }
-
-            return bitmapImage;
-
         }
+
+
     }
 }
