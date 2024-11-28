@@ -7,6 +7,7 @@ Currently it covers images of:
 - EMGU.CV (https://github.com/emgucv/emgucv)
 - Magick.NET (https://github.com/dlemstra/Magick.NET)
 - ImageSharp (https://sixlabors.com/products/imagesharp/)
+- ImageFlow dotNet (https://github.com/imazen/imageflow-dotnet)
 - Microsoft.UI.Xaml.Media.Imaging.BitmapImage
 - System.Windows.Media.Imaging
 - System.Drawing
