@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using PMortara.Helpers.ImageConverterExtensions;
+using PMortara.Helpers.ImageConverterExtensions.FromSKBitmap;
 using SixLabors.ImageSharp;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
@@ -50,7 +51,7 @@ namespace TestAndBenchmark
             AddConversionResult("Original image", new BitmapImage(new Uri(path, UriKind.Absolute)));
         }
 
-        public void TestConversions()
+        public async void TestConversions()
         {
             var path = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "Assets", "DSC_6947.JPG");
 
@@ -89,6 +90,13 @@ namespace TestAndBenchmark
 
             var imagesharpimg = Image.Load(path);
             AddConversionResult("ImageSharp.Image -> ToSKImage -> ToBitmapImage", imagesharpimg.ToSKImage().ToBitmapImage());
+
+            var imageflowimg = skbitmap.ToImageFlowBuildNode();
+            var ifsk = await imageflowimg.FlipVertical().ToSKImageAsync();
+            AddConversionResult("SKBitmap -> ToImageFlowBuildNode -> FlipVertical -> ToSKImage -> ToBitmapImage", ifsk.ToBitmapImage());
+
+            var skbitmap3 = SKBitmap.FromImage(skimg);
+            AddConversionResult("SKBitmap -> ToBitmapImage", ifsk.ToBitmapImage());
         }
 
         private void AddConversionResult(String name, BitmapSource bmp)

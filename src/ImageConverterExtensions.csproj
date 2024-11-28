@@ -22,6 +22,7 @@
   <ItemGroup>
 	  <PackageReference Include="Emgu.CV.Bitmap" Version="4.9.0.5494" />
 	  <PackageReference Include="Emgu.CV.Wpf" Version="4.9.0.5494" />
+	  <PackageReference Include="Imageflow.Net" Version="0.13.2" />
 	  <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.2.0" />
 	  <PackageReference Include="Magick.NET.Core" Version="14.2.0" />
 	  <PackageReference Include="SixLabors.ImageSharp" Version="3.1.6" />

@@ -29,6 +29,8 @@
     <PackageReference Include="Emgu.CV.runtime.windows" Version="4.9.0.5494" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0-preview2" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.241112-preview1" />
+    <PackageReference Include="Imageflow.NativeRuntime.win-x86_64" Version="2.0.0-preview8" />
+    <PackageReference Include="Imageflow.Net" Version="0.13.2" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.6" />
     <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="3.118.0-preview.1.2" />

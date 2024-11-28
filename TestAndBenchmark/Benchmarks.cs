@@ -3,6 +3,7 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using ImageMagick;
 using PMortara.Helpers.ImageConverterExtensions;
+using PMortara.Helpers.ImageConverterExtensions.FromSKBitmap;
 using SixLabors.ImageSharp;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
@@ -81,6 +82,9 @@ namespace TestAndBenchmark
 
             RunTests("byte[] to BitmapImage", () => { return _byteArrayImage.ToBitmapImage(); });
 
+            RunTests("SKBitmap to ImageFlow", () => { return _SKBitmap.ToImageFlowBuildNode(); });
+
+            RunTests("SKBitmap to BitmapImage", () => { return _SKBitmap.ToBitmapImage(); });
         }
 
         public void RunTests(String name, Func<object> action, int cnt = 10)
