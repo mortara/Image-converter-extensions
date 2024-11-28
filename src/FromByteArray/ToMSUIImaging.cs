@@ -10,7 +10,8 @@ namespace PMortara.Helpers.ImageConverterExtensions
             var bitmapImage = new BitmapImage();
             using (var imageStream = new MemoryStream(data))
             {
-                await bitmapImage.SetSourceAsync(imageStream.AsRandomAccessStream());
+                using (var ras = imageStream.AsRandomAccessStream())
+                    await bitmapImage.SetSourceAsync(ras);
             }
 
             return bitmapImage;
@@ -23,7 +24,8 @@ namespace PMortara.Helpers.ImageConverterExtensions
             var bitmapImage = new BitmapImage();
             using (var imageStream = new MemoryStream(data))
             {
-                bitmapImage.SetSource(imageStream.AsRandomAccessStream());
+                using(var ras = imageStream.AsRandomAccessStream())
+                    bitmapImage.SetSource(ras);
             }
 
             return bitmapImage;

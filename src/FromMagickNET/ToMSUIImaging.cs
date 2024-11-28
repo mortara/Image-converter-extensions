@@ -22,7 +22,8 @@ namespace PMortara.Helpers.ImageConverterExtensions
             {
                 mimg.Write(ms, MagickFormat.Bmp3);
                 ms.Position = 0;
-                bitmapImage.SetSource(ms.AsRandomAccessStream());
+                using (var ras = ms.AsRandomAccessStream())
+                    bitmapImage.SetSource(ras);
             }
 
             return bitmapImage;
@@ -37,7 +38,8 @@ namespace PMortara.Helpers.ImageConverterExtensions
             {
                 magickimage.Write(ms, MagickFormat.Bmp3);
                 ms.Seek(0, SeekOrigin.Begin);
-                bitmapImage.SetSource(ms.AsRandomAccessStream());
+                using(var ras = ms.AsRandomAccessStream())
+                    bitmapImage.SetSource(ras);
             }
 
             return bitmapImage;

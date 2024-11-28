@@ -1,6 +1,7 @@
 ﻿using SkiaSharp;
 using System.IO;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System.Security.Cryptography;
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {
@@ -21,7 +22,8 @@ namespace PMortara.Helpers.ImageConverterExtensions
                 {
                     encoded.SaveTo(ms);
                     ms.Seek(0, SeekOrigin.Begin);
-                    bitmapImage.SetSource(ms.AsRandomAccessStream());
+                    using(var ras = ms.AsRandomAccessStream())
+                        bitmapImage.SetSource(ras); 
                 }
             }
             return bitmapImage;
