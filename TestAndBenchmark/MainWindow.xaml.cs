@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using PMortara.Helpers.ImageConverterExtensions;
+using PMortara.Helpers.ImageConverterExtensions.FromMagickNET;
 using PMortara.Helpers.ImageConverterExtensions.FromSKBitmap;
 using SixLabors.ImageSharp;
 using SkiaSharp;
@@ -14,6 +15,7 @@ using SkiaSharp.Views.Windows;
 using System;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace TestAndBenchmark
@@ -34,9 +36,10 @@ namespace TestAndBenchmark
         {
             this.InitializeComponent();
 
-            LoadImage();
-            TestConversions();
+            
         }
+
+        
 
         public void RunBenchmarks()
         {
@@ -97,20 +100,36 @@ namespace TestAndBenchmark
 
             var skbitmap3 = SKBitmap.FromImage(skimg);
             AddConversionResult("SKBitmap -> ToBitmapImage", ifsk.ToBitmapImage());
+
+            var isimage = imagemagickimage.ToImageSharpImage();
+            AddConversionResult("SKBitmap -> ToImageSharpImage -> ToBitmapImage", isimage.ToBitmapImage());
         }
 
         private void AddConversionResult(String name, BitmapSource bmp)
         {
-            var result = new ResultViewModel();
-            result.Text = name;
-            result.Image = bmp;
-            ViewModel.Results.Add(result);
+            
+            this.DispatcherQueue?.TryEnqueue(() =>
+            {
+                var result = new ResultViewModel();
+                result.Text = name;
+                result.Image = bmp;
+                ViewModel.Results.Add(result);
+            });
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Benchmarks.Results = String.Empty;
             RunBenchmarks();
+        }
+
+
+        private void Button2_Click(object sender, RoutedEventArgs e)
+        {
+            LoadImage();
+            TestConversions();
+
         }
     }
 }

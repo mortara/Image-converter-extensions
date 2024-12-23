@@ -11,10 +11,17 @@
     <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Results, Mode=OneWay}"  Margin="0,3,0,0">
+        <StackPanel >
+            <Button Click="Button2_Click" >Load tests</Button>
+            <Button Click="Button_Click" >Run benchmarks</Button>
+            
+        </StackPanel>
+
+        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Results, Mode=OneWay}"  Margin="0,3,0,0" Grid.Row="1">
             <ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="local:ResultViewModel">
                     <Border>
@@ -38,9 +45,8 @@
 
         </ItemsRepeater>
 
-        <StackPanel Grid.Row="1">
-            <Button Click="Button_Click" >Run benchmarks</Button>
-            <TextBlock Text="{x:Bind Benchmarks.Results, Mode=OneWay}" TextWrapping="Wrap"/>
-        </StackPanel>
+           
+        <TextBlock Text="{x:Bind Benchmarks.Results, Mode=OneWay}" TextWrapping="Wrap" Grid.Row="2"/>
+  
     </Grid>
 </Window>
