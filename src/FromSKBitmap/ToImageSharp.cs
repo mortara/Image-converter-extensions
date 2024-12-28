@@ -1,7 +1,6 @@
 ﻿using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SkiaSharp;
-using System.IO;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace PMortara.Helpers.ImageConverterExtensions.FromSKBitmap
