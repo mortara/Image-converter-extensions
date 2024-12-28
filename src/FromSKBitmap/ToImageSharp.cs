@@ -38,5 +38,26 @@ namespace PMortara.Helpers.ImageConverterExtensions.FromSKBitmap
 
             return image;
         }
+
+        public static Image AsImageSharpImage(this SKBitmap skiaBitmap)
+        {
+            unsafe
+            {
+                var l = skiaBitmap.BytesPerPixel * skiaBitmap.Width * skiaBitmap.Height;
+                var memory = skiaBitmap.GetPixels().ToPointer();
+
+                /// Directy load Pixeldata for known ColorTypes
+                if (skiaBitmap.ColorType == SKColorType.Rgba8888)
+                    return Image.WrapMemory<Rgba32>(memory, l, skiaBitmap.Width, skiaBitmap.Height);             
+
+                if (skiaBitmap.ColorType == SKColorType.Bgra8888)
+                    return Image.WrapMemory<Bgra32>(memory, l, skiaBitmap.Width, skiaBitmap.Height);
+
+                if (skiaBitmap.ColorType == SKColorType.Gray8)
+                    return Image.WrapMemory<L8>(memory, l, skiaBitmap.Width, skiaBitmap.Height);
+            }
+
+            throw new Exception("ColorType not supported!");
+        }
     }
 }
