@@ -39,6 +39,12 @@ namespace PMortara.Helpers.ImageConverterExtensions.FromSKBitmap
             return image;
         }
 
+        /// <summary>
+        /// Takes a SKBitmap and wraps it into an ImageSharp image.
+        /// </summary>
+        /// <param name="skiaBitmap"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public static Image AsImageSharpImage(this SKBitmap skiaBitmap)
         {
             unsafe
