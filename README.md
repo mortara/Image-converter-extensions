@@ -35,11 +35,11 @@ I have no intentions to publish this as a nuget package or something like that. 
 is probably to just copy and paste the parts you really need into your own project.
 
 All conversions that start with ToXXXX() (e.g. ToSKImage()) are meant to create a new copy of the image.
-Later i want to also add AsXXXX() function that do not create a new copy.
+Conversions starting with AsXXXX() do not create a new copy.
 
 # Contribution
 
-Any kinf of contribution is highly welcomed and appriciated!
+Any kinf of contribution is highly welcomed and appreciated!
 
 # License
 
