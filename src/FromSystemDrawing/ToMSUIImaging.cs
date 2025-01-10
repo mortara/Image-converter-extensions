@@ -17,7 +17,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
 
             using (var stream = new MemoryStream())
             {
-                bitmap.Save(stream, ImageFormat.Bmp);
+                bitmap.Save(stream, ImageFormat.Png);
                 stream.Seek(0, SeekOrigin.Begin);
                 using (var ras = stream.AsRandomAccessStream())
                     bitmapImage.SetSource(ras);
