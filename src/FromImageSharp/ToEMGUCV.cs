@@ -12,11 +12,6 @@ namespace PMortara.Helpers.ImageConverterExtensions
 {
     public static partial class ImageSharpExtensions
     {
-        public static Image<TColor, TDepth> ToEMGUImage<TColor, TDepth>(this Image<Rgb24> ims) where TColor : struct, IColor where TDepth : new()
-        {
-            return ims.AsEMGUCVImage().Convert<TColor, TDepth>();
-
-        }
 
         /// <summary>
         /// Converts ImageSharp Image to Emgu.CV Image
@@ -26,6 +21,25 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// 
         /// </ToDo>
+        public unsafe static Image<TColor, TDepth> ToEMGUImage<TColor, TDepth>(this Image<Rgb24> ims) where TColor : struct, IColor where TDepth : new()
+        {
+            if (!Configuration.Default.PreferContiguousImageBuffers)
+                throw new Exception("Enable contigous imagebuffers!");
+
+            var stride = ims.PixelType.BitsPerPixel / 8 * ims.Width;
+
+            ims.DangerousTryGetSinglePixelMemory(out var memoryManager);
+
+            using (var handle = memoryManager.Pin())
+            {
+                var scan0 = (nint)handle.Pointer;
+                var image = new Image<Rgb, byte>(ims.Width, ims.Height, stride, scan0);
+
+                return image.Convert<TColor, TDepth>();
+            }
+        }
+
+        
         public static Image<TColor, TDepth> ToEMGUImage_v2<TColor, TDepth>(this Image<Rgb24> ims) where TColor : struct, IColor where TDepth : new()
         {
             using (var target = new Image<Rgb, byte>(ims.Width, ims.Height))
