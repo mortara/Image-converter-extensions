@@ -2,8 +2,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
-    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-    <WindowsSdkPackageVersion>10.0.26100.38</WindowsSdkPackageVersion>
+   
     <RootNamespace>TestAndBenchmark</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x86;x64</Platforms>
@@ -13,6 +12,7 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\StoreLogo.scale-100.png" />
@@ -26,15 +26,29 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Emgu.CV.runtime.windows" Version="4.9.0.5494" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0-preview2" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.241112-preview1" />
-    <PackageReference Include="Imageflow.NativeRuntime.win-x86_64" Version="2.0.0-preview8" />
+    <PackageReference Include="Emgu.CV.Bitmap" Version="4.10.0.5680" />
+    <PackageReference Include="Emgu.CV.Wpf" Version="4.10.0.5680" />
     <PackageReference Include="Imageflow.Net" Version="0.13.2" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.4.0" />
+    <PackageReference Include="Magick.NET.Core" Version="14.4.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.6" />
     <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="3.118.0-preview.1.2" />
     <PackageReference Include="SkiaSharp.NativeAssets.WinUI" Version="3.118.0-preview.1.2" />
+    <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="3.118.0-preview.1.2" />
+    <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="3.118.0-preview.1.2" />
+    <PackageReference Include="SkiaSharp.Views.WinUI" Version="3.118.0-preview.1.2" />
+    <PackageReference Include="SkiaSharp.Views.WPF" Version="3.118.0-preview.1.2" />
+    <PackageReference Include="CommunityToolkit.HighPerformance" Version="8.4.0" />
+    <PackageReference Include="System.Private.Uri" Version="4.3.2" />
+    <PackageReference Include="System.Text.Json" Version="9.0.2" />
+    <PackageReference Include="Emgu.CV.runtime.windows" Version="4.10.0.5680" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.241112-preview1" />
+    <PackageReference Include="Imageflow.NativeRuntime.win-x86_64" Version="2.0.0-preview8" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250205002" />
+
+
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
