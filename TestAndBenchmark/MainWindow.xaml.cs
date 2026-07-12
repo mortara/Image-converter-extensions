@@ -9,6 +9,8 @@ using PMortara.Helpers.ImageConverterExtensions;
 using PMortara.Helpers.ImageConverterExtensions.FromMagickNET;
 using PMortara.Helpers.ImageConverterExtensions.FromSKBitmap;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 using SkiaSharp.Views.Windows;
@@ -56,6 +58,9 @@ namespace TestAndBenchmark
 
         public async void TestConversions()
         {
+
+            Configuration.Default.PreferContiguousImageBuffers = true;
+
             var path = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "Assets", "DSC_6947.JPG");
 
             var skimg = SKImage.FromEncodedData(path);
@@ -92,8 +97,9 @@ namespace TestAndBenchmark
 
 
             var imagesharpimg = Image.Load(path);
+            var imagesharpimg2 = Image.Load<Rgb24>(path);
             AddConversionResult("ImageSharp.Image -> ToSKImage -> ToBitmapImage", imagesharpimg.ToSKImage().ToBitmapImage());
-
+            AddConversionResult("ImageSharp.Image -> ToEMGUCV -> SmoothBlur(4,4) -> ToBitmapImage", imagesharpimg2.ToEMGUImage<Bgr, byte>().SmoothBlur(40,40).ToBitmapImage());
             var imageflowimg = skbitmap.ToImageFlowBuildNode();
             var ifsk = await imageflowimg.FlipVertical().ToSKImageAsync();
             AddConversionResult("SKBitmap -> ToImageFlowBuildNode -> FlipVertical -> ToSKImage -> ToBitmapImage", ifsk.ToBitmapImage());
@@ -103,6 +109,15 @@ namespace TestAndBenchmark
 
             var isimage = imagemagickimage.ToImageSharpImage();
             AddConversionResult("SKBitmap -> ToImageSharpImage -> ToBitmapImage", isimage.ToBitmapImage());
+
+            var isimage2 = _EMGUCVIMage.AsImageSharpImage();
+            isimage2.Mutate(x=> x.Contrast(0.5f));
+            AddConversionResult("EMGUCV -> AsImageSharpImage -> Contrast(0.5f) -> ToBitmapImage", isimage2.ToBitmapImage());
+
+            var emgu2 = SixLabors.ImageSharp.Image.Load<Rgb24>(path).AsEMGUCVImage();
+            emgu2.Draw("T E S T ! !", new System.Drawing.Point(1000, 1000), Emgu.CV.CvEnum.FontFace.HersheyPlain, 50, new Rgb(255, 0, 255), 25);
+            AddConversionResult("ImageSharpImage -> AsEMGUCVImage -> SmoothGaussian(4) -> ToBitmapImage", emgu2.ToBitmapImage());
+
         }
 
         private void AddConversionResult(String name, BitmapSource bmp)

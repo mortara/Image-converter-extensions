@@ -5,6 +5,7 @@ using ImageMagick;
 using PMortara.Helpers.ImageConverterExtensions;
 using PMortara.Helpers.ImageConverterExtensions.FromSKBitmap;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 using SkiaSharp.Views.Windows;
@@ -27,6 +28,7 @@ namespace TestAndBenchmark
         private IMagickImage _MagickImage = null;
         private System.Drawing.Bitmap _SysBitmap = null;
         private Image _ImageSharpImage = null;
+        private Image<Rgb24> _ImageSharpImagergb24 = null;
         private byte[] _byteArrayImage = null;
 
         [ObservableProperty]
@@ -42,7 +44,8 @@ namespace TestAndBenchmark
             _SKImage = SKImage.FromEncodedData(ImagePath);
             _SKBitmap = SKBitmap.FromImage(_SKImage);
             _MagickImage = new MagickImage(ImagePath);
-            _ImageSharpImage = Image.Load(ImagePath);   
+            _ImageSharpImage = Image.Load(ImagePath);
+            _ImageSharpImagergb24 = Image.Load<Rgb24>(ImagePath);
             _SysBitmap = _EMGUCVIMage.ToBitmap();
 
             _byteArrayImage = File.ReadAllBytes(ImagePath);
@@ -79,6 +82,8 @@ namespace TestAndBenchmark
             RunTests("SKBitmap to MagickImage", () => { return _SKBitmap.ToMagickImage(); });
 
             RunTests("ImageSharp.Image to SKImage", () => { return _ImageSharpImage.ToSKImage(); });
+            RunTests("ImageSharp.Image to ToEMGUImage_v1", () => { return _ImageSharpImage.ToEMGUImage_v1<Bgr, byte>(); });
+            RunTests("ImageSharp.Image to ToEMGUImage", () => { return _ImageSharpImagergb24.ToEMGUImage<Bgr, byte>(); });
 
             RunTests("byte[] to BitmapImage", () => { return _byteArrayImage.ToBitmapImage(); });
 
