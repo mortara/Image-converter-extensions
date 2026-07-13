@@ -4,10 +4,10 @@ using PMortara.Helpers.ImageConverterExtensions;
 using PMortara.Helpers.ImageConverterExtensions.FromByteArray;
 using SkiaSharp;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Reflection;
 using System.Threading.Tasks;
 using Image = SixLabors.ImageSharp.Image;
+using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace TestAndBenchmark
 {

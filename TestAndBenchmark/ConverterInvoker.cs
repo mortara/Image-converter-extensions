@@ -10,7 +10,7 @@ namespace TestAndBenchmark
     /// </summary>
     public static class ConverterInvoker
     {
-        public static async Task<object?> InvokeAsync(ConverterDescriptor descriptor, object sourceInstance)
+        public static async Task<object> InvokeAsync(ConverterDescriptor descriptor, object sourceInstance)
         {
             var method = descriptor.Method;
 
@@ -23,7 +23,7 @@ namespace TestAndBenchmark
             }
 
             var parameters = method.GetParameters();
-            var arguments = new object?[parameters.Length];
+            var arguments = new object[parameters.Length];
             arguments[0] = sourceInstance;
             for (int i = 1; i < parameters.Length; i++)
                 arguments[i] = Type.Missing;

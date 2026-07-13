@@ -19,7 +19,7 @@ namespace TestAndBenchmark
     /// </summary>
     public static class ResultDisplayAdapter
     {
-        public static async Task<BitmapSource?> ToDisplayImageAsync(object? result, ImageLibraryFormat targetFormat)
+        public static async Task<BitmapSource> ToDisplayImageAsync(object result, ImageLibraryFormat targetFormat)
         {
             if (result is null)
                 return null;
