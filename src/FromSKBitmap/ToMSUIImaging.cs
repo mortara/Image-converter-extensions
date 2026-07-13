@@ -16,6 +16,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Get rid of PNG re-encoding
         /// </ToDo>
+        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.SKBitmap, ImageLibraryFormat.WinUIBitmapImage, ConverterKind.Real)]
         public static BitmapImage ToBitmapImage(this SKBitmap skiaBitmap)
         {
             using (var pixmap = skiaBitmap.PeekPixels())

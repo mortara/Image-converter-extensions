@@ -12,6 +12,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// </summary>
         /// <param name="skiaImage"></param>
         /// <returns></returns>
+        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.SKImage, ImageLibraryFormat.WinUIBitmapImage, ConverterKind.Real)]
         public static BitmapImage ToBitmapImage(this SKImage skiaImage)
         {
             var bitmapImage = new BitmapImage();

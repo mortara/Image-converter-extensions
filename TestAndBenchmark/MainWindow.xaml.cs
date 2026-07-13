@@ -1,24 +1,11 @@
-using Emgu.CV;
-using Emgu.CV.Structure;
-using ImageMagick;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using PMortara.Helpers.ImageConverterExtensions;
-using PMortara.Helpers.ImageConverterExtensions.FromMagickNET;
-using PMortara.Helpers.ImageConverterExtensions.FromSKBitmap;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
-using SkiaSharp;
-using SkiaSharp.Views.Desktop;
-using SkiaSharp.Views.Windows;
 using System;
-using System.Drawing;
+using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
-using Image = SixLabors.ImageSharp.Image;
+using System.Linq;
 
 namespace TestAndBenchmark
 {
@@ -29,8 +16,7 @@ namespace TestAndBenchmark
     {
         public ViewModel ViewModel { get; set; } = new ViewModel();
 
-        private String _testImage = String.Empty;
-        private Benchmarks _benchmark  = new Benchmarks();
+        private Benchmarks _benchmark = new Benchmarks();
 
         public Benchmarks Benchmarks { get { return _benchmark; } }
 
@@ -38,91 +24,81 @@ namespace TestAndBenchmark
         {
             this.InitializeComponent();
 
-            
+            foreach (var descriptor in ConverterCatalog.Discover())
+                ViewModel.AvailableConverters.Add(new ConverterSelectionViewModel(descriptor));
         }
 
-        
+        private static String TestImagePath =>
+            Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "Assets", "DSC_6947.JPG");
 
-        public void RunBenchmarks()
+        private IReadOnlyDictionary<ImageLibraryFormat, object> BuildSources()
         {
-            _benchmark.Setup();
-            _benchmark.RunBenchmarks();
-      
+            var bytes = TestOverlay.ApplyIfRequested(TestImagePath, ViewModel.OverlayTestText);
+            return SourceInstanceFactory.CreateAll(bytes);
         }
 
-        public void LoadImage()
+        private static void DisposeSources(IReadOnlyDictionary<ImageLibraryFormat, object> sources)
         {
-            var path = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "Assets", "DSC_6947.JPG");
-            AddConversionResult("Original image", new BitmapImage(new Uri(path, UriKind.Absolute)));
+            foreach (var value in sources.Values)
+                if (value is IDisposable disposable)
+                    disposable.Dispose();
         }
 
-        public async void TestConversions()
+        public async void RunSelectedTests()
         {
+            ViewModel.Results.Clear();
 
-            Configuration.Default.PreferContiguousImageBuffers = true;
+            var sources = BuildSources();
+            try
+            {
+                if (sources.TryGetValue(ImageLibraryFormat.ByteArray, out var originalBytes))
+                    AddConversionResult("Original image", await ((byte[])originalBytes).ToBitmapImageAsync());
 
-            var path = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "Assets", "DSC_6947.JPG");
+                foreach (var selection in ViewModel.AvailableConverters.Where(c => c.IsSelected))
+                {
+                    var descriptor = selection.Descriptor;
+                    try
+                    {
+                        if (!sources.TryGetValue(descriptor.Attribute.SourceFormat, out var source))
+                        {
+                            AddConversionResult($"{descriptor.DisplayName}: skipped (no source for {descriptor.Attribute.SourceFormat})", null);
+                            continue;
+                        }
 
-            var skimg = SKImage.FromEncodedData(path);
-            AddConversionResult("SKImage -> ToWriteableBitmap", skimg.ToWriteableBitmap());
+                        var result = await ConverterInvoker.InvokeAsync(descriptor, source);
+                        var display = await ResultDisplayAdapter.ToDisplayImageAsync(result, descriptor.Attribute.TargetFormat);
+                        AddConversionResult(descriptor.DisplayName, display);
+                    }
+                    catch (Exception ex)
+                    {
+                        AddConversionResult($"{descriptor.DisplayName}: FAILED - {ex.GetBaseException().Message}", null);
+                    }
+                }
+            }
+            finally
+            {
+                DisposeSources(sources);
+            }
+        }
 
-            var _EMGUCVIMage = new Image<Bgra, byte>(path);
-            AddConversionResult("EMGUCV Image -> ToBitmapImage", _EMGUCVIMage.ToBitmapImage());
+        public async void RunSelectedBenchmarks()
+        {
+            Benchmarks.Results = String.Empty;
 
-            var _MagickImage = new MagickImage(path);
-            AddConversionResult("MagickImage -> ToBitmapImage", _MagickImage.ToBitmapImage());
-
-            AddConversionResult("MagickImage -> ToWriteableBitmap", _MagickImage.ToWriteableBitmap());
-
-            var emgucvimg = skimg.ToEMGUImage<Bgra, byte>();
-            AddConversionResult("SKImage -> EMGUCV Image -> ToBitmapImage", emgucvimg.ToBitmapImage());
-
-            var imagemagickimage = skimg.ToMagickImage();
-            AddConversionResult("SKImage -> MagickImage -> ToBitmapImage", imagemagickimage.ToBitmapImage());
-
-            var sysbitmap = skimg.ToBitmap();
-            AddConversionResult("SKImage -> ToBitmap -> ToBitmapImage", sysbitmap.ToBitmapImage());
-
-            var skbitmap = SKBitmap.FromImage(skimg);
-            var emgucv2 = skbitmap.AsEMGUCVImage();
-            emgucv2.Draw("T E S T ! !", new System.Drawing.Point(1000, 1000), Emgu.CV.CvEnum.FontFace.HersheyPlain, 50, new Bgra(255,0,0,255), 25 );
-            AddConversionResult("SKImage -> SKBitmap.AsEMGUCV -> ToBitmapImage", emgucv2.ToBitmapImage());
-
-            var skbitmap2 = SKBitmap.FromImage(skimg);
-            var sysbmp = skbitmap2.AsBitmap();
-            AddConversionResult("SKBitmap -> AsBitmap -> ToBitmapImage", sysbmp.ToBitmapImage());
-
-            var magicimg2 = skbitmap2.ToMagickImage();
-            AddConversionResult("SKBitmap -> ToMagickImage -> ToBitmapImage", magicimg2.ToBitmapImage());
-
-
-            var imagesharpimg = Image.Load(path);
-            var imagesharpimg2 = Image.Load<Rgb24>(path);
-            AddConversionResult("ImageSharp.Image -> ToSKImage -> ToBitmapImage", imagesharpimg.ToSKImage().ToBitmapImage());
-            AddConversionResult("ImageSharp.Image -> ToEMGUCV -> SmoothBlur(4,4) -> ToBitmapImage", imagesharpimg2.ToEMGUImage<Bgr, byte>().SmoothBlur(40,40).ToBitmapImage());
-            var imageflowimg = skbitmap.ToImageFlowBuildNode();
-            var ifsk = await imageflowimg.FlipVertical().ToSKImageAsync();
-            AddConversionResult("SKBitmap -> ToImageFlowBuildNode -> FlipVertical -> ToSKImage -> ToBitmapImage", ifsk.ToBitmapImage());
-
-            var skbitmap3 = SKBitmap.FromImage(skimg);
-            AddConversionResult("SKBitmap -> ToBitmapImage", ifsk.ToBitmapImage());
-
-            var isimage = imagemagickimage.ToImageSharpImage();
-            AddConversionResult("SKBitmap -> ToImageSharpImage -> ToBitmapImage", isimage.ToBitmapImage());
-
-            var isimage2 = _EMGUCVIMage.AsImageSharpImage();
-            isimage2.Mutate(x=> x.Contrast(0.5f));
-            AddConversionResult("EMGUCV -> AsImageSharpImage -> Contrast(0.5f) -> ToBitmapImage", isimage2.ToBitmapImage());
-
-            var emgu2 = SixLabors.ImageSharp.Image.Load<Rgb24>(path).AsEMGUCVImage();
-            emgu2.Draw("T E S T ! !", new System.Drawing.Point(1000, 1000), Emgu.CV.CvEnum.FontFace.HersheyPlain, 50, new Rgb(255, 0, 255), 25);
-            AddConversionResult("ImageSharpImage -> AsEMGUCVImage -> SmoothGaussian(4) -> ToBitmapImage", emgu2.ToBitmapImage());
-
+            var sources = BuildSources();
+            try
+            {
+                var selected = ViewModel.AvailableConverters.Where(c => c.IsSelected).Select(c => c.Descriptor);
+                await Benchmarks.RunSelectedAsync(selected, sources);
+            }
+            finally
+            {
+                DisposeSources(sources);
+            }
         }
 
         private void AddConversionResult(String name, BitmapSource bmp)
         {
-            
             this.DispatcherQueue?.TryEnqueue(() =>
             {
                 var result = new ResultViewModel();
@@ -130,21 +106,17 @@ namespace TestAndBenchmark
                 result.Image = bmp;
                 ViewModel.Results.Add(result);
             });
-            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Benchmarks.Results = String.Empty;
-            RunBenchmarks();
+            RunSelectedBenchmarks();
         }
 
 
         private void Button2_Click(object sender, RoutedEventArgs e)
         {
-            LoadImage();
-            TestConversions();
-
+            RunSelectedTests();
         }
     }
 }

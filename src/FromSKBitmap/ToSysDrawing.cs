@@ -11,7 +11,8 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <param name="skiaBitmap"></param>
         /// <param name="pixelFormat"></param>
         /// <returns></returns>
-        public static Bitmap ToBitmap(this SKBitmap skiaBitmap, PixelFormat pixelFormat)
+        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.SKBitmap, ImageLibraryFormat.SystemDrawingBitmap, ConverterKind.Real)]
+        public static Bitmap ToBitmap(this SKBitmap skiaBitmap, PixelFormat pixelFormat = PixelFormat.Format32bppArgb)
         {
             using (var pixmap = skiaBitmap.PeekPixels())
             {
@@ -24,6 +25,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
             }
         }
 
+        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.SKBitmap, ImageLibraryFormat.SystemDrawingBitmap, ConverterKind.InMemoryWrapper)]
         public static Bitmap AsBitmap(this SKBitmap skiaBitmap)
         {
             var stride = skiaBitmap.ColorType.GetBytesPerPixel() * skiaBitmap.Width;

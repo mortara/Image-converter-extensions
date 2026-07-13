@@ -11,7 +11,8 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <param name="skiaImage"></param>
         /// <param name="pixelFormat"></param>
         /// <returns></returns>
-        public static Bitmap ToBitmap(this SKImage skiaImage, PixelFormat pixelFormat)
+        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.SKImage, ImageLibraryFormat.SystemDrawingBitmap, ConverterKind.Real)]
+        public static Bitmap ToBitmap(this SKImage skiaImage, PixelFormat pixelFormat = PixelFormat.Format32bppArgb)
         {
             var bitmap = new Bitmap(skiaImage.Width, skiaImage.Height, pixelFormat);
             var data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.WriteOnly, bitmap.PixelFormat);

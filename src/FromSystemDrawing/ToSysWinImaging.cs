@@ -5,6 +5,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
 {
     public static partial class SystemDrawingExtensions
     {
+        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.SystemDrawingBitmap, ImageLibraryFormat.WpfBitmapSource, ConverterKind.Real)]
         public static BitmapSource ToBitmapSource(this Bitmap bmp)
         {
 

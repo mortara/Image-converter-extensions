@@ -6,6 +6,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
 {
     public static partial class ImageSharpExtensions
     {
+        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.SystemDrawingBitmap, ConverterKind.Real)]
         public static System.Drawing.Image ToArray(this SixLabors.ImageSharp.Image imageIn)
         {
             using (var ms = new MemoryStream())

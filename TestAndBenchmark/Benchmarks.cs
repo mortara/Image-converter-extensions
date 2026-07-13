@@ -1,115 +1,56 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Emgu.CV;
-using Emgu.CV.Structure;
-using ImageMagick;
-using PMortara.Helpers.ImageConverterExtensions;
-using PMortara.Helpers.ImageConverterExtensions.FromSKBitmap;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SkiaSharp;
-using SkiaSharp.Views.Desktop;
-using SkiaSharp.Views.Windows;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
+using System.Threading.Tasks;
 
 
 namespace TestAndBenchmark
 {
-
-
     public partial class Benchmarks : ObservableObject
     {
-        private String ImagePath { get;set ; } = String.Empty;
-
-        private Image<Bgra, byte> _EMGUCVIMage = null;
-        private SKImage _SKImage = null;
-        private SKBitmap _SKBitmap = null;
-        private IMagickImage _MagickImage = null;
-        private System.Drawing.Bitmap _SysBitmap = null;
-        private Image _ImageSharpImage = null;
-        private Image<Rgb24> _ImageSharpImagergb24 = null;
-        private byte[] _byteArrayImage = null;
-
         [ObservableProperty]
         private String results = String.Empty;
 
-        public void Setup()
+        public async Task RunSelectedAsync(IEnumerable<ConverterDescriptor> selected, IReadOnlyDictionary<ImageLibraryFormat, object> sources)
         {
-            Debug.Print("Setup");
+            foreach (var descriptor in selected)
+            {
+                if (!sources.TryGetValue(descriptor.Attribute.SourceFormat, out var source))
+                {
+                    AddResult($"{descriptor.DisplayName}: skipped (no loaded source instance for {descriptor.Attribute.SourceFormat})");
+                    continue;
+                }
 
-            ImagePath = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "Assets", "DSC_6947.JPG");
-            Debug.Print(ImagePath);
-            _EMGUCVIMage = new Image<Bgra, byte>(ImagePath);
-            _SKImage = SKImage.FromEncodedData(ImagePath);
-            _SKBitmap = SKBitmap.FromImage(_SKImage);
-            _MagickImage = new MagickImage(ImagePath);
-            _ImageSharpImage = Image.Load(ImagePath);
-            _ImageSharpImagergb24 = Image.Load<Rgb24>(ImagePath);
-            _SysBitmap = _EMGUCVIMage.ToBitmap();
-
-            _byteArrayImage = File.ReadAllBytes(ImagePath);
+                await RunTestsAsync(descriptor.DisplayName, () => ConverterInvoker.InvokeAsync(descriptor, source));
+            }
         }
 
-        public void RunBenchmarks()
-        {
-            RunTests("EMGUCV to BitmapImage", () => { return _EMGUCVIMage.ToBitmapImage(); });
-            
-            RunTests("EMGUCV to WriteableBitmap", () => { return _EMGUCVIMage.ToWriteableBitmap(); });
-
-            RunTests("EMGUCV to SKImage", () => { return _EMGUCVIMage.ToSKImage(); });
-
-            RunTests("EMGUCV to SKBitmap", () => { return _EMGUCVIMage.ToSKBitmap(); });
-
-            //RunTests("EMGUCV to MagickImage", () => { return _EMGUCVIMage.ToSKImage(); });
-
-            //RunTests("SKBitmap to BitmapImage", () => { return _SKBitmap.ToBitmapImage(); });
-
-            //RunTests("SKImage to BitmapImage", () => { return _SKImage.ToBitmapImage(); });
-
-            RunTests("SKImage to WriteableBitmap", () => { return _SKImage.ToWriteableBitmap(); });
-
-            RunTests("SKImage to MagickImage", () => { return _SKImage.ToMagickImage(); });
-
-            /*var bmp = SKBitmap.FromImage(_SKImage);
-            var img = SKImage.FromBitmap(bmp);
-            RunTests("SKImage to MagickImage ", () => { return img.ToMagickImage(); });*/
-
-            RunTests("SKImage to System.Drawing.Bitmap", () => { return _SKImage.ToBitmap(System.Drawing.Imaging.PixelFormat.Format32bppArgb); });
-
-            RunTests("Bitmap to BitmapImage", () => { return _SysBitmap.ToBitmapImage(); });
-
-            RunTests("SKBitmap to MagickImage", () => { return _SKBitmap.ToMagickImage(); });
-
-            RunTests("ImageSharp.Image to SKImage", () => { return _ImageSharpImage.ToSKImage(); });
-            RunTests("ImageSharp.Image to ToEMGUImage_v1", () => { return _ImageSharpImage.ToEMGUImage_v1<Bgr, byte>(); });
-            RunTests("ImageSharp.Image to ToEMGUImage", () => { return _ImageSharpImagergb24.ToEMGUImage<Bgr, byte>(); });
-
-            RunTests("byte[] to BitmapImage", () => { return _byteArrayImage.ToBitmapImage(); });
-
-            RunTests("SKBitmap to ImageFlow", () => { return _SKBitmap.ToImageFlowBuildNode(); });
-
-            RunTests("SKBitmap to BitmapImage", () => { return _SKBitmap.ToBitmapImage(); });
-        }
-
-        public void RunTests(String name, Func<object> action, int cnt = 10)
+        public async Task RunTestsAsync(String name, Func<Task<object>> action, int cnt = 10)
         {
             Debug.Print("Start test: " + name);
-            GC.Collect();
-            var mem = GC.GetAllocatedBytesForCurrentThread();
-            var sw = Stopwatch.StartNew();
-            for (int i = 0; i < 10; i++)
+            try
             {
-                var bmp = action();
-                
-                if(bmp is IDisposable disposable)
-                    disposable.Dispose();
-            }
-            sw.Stop();
-            GC.Collect();
-            var usage = (float)(GC.GetAllocatedBytesForCurrentThread() - mem) / 1024f;
+                GC.Collect();
+                var mem = GC.GetAllocatedBytesForCurrentThread();
+                var sw = Stopwatch.StartNew();
+                for (int i = 0; i < cnt; i++)
+                {
+                    var result = await action();
 
-            AddResult($"{cnt} x {name}: {sw.ElapsedMilliseconds} ms. Memory usage: {usage} KB");
+                    if (result is IDisposable disposable)
+                        disposable.Dispose();
+                }
+                sw.Stop();
+                GC.Collect();
+                var usage = (float)(GC.GetAllocatedBytesForCurrentThread() - mem) / 1024f;
+
+                AddResult($"{cnt} x {name}: {sw.ElapsedMilliseconds} ms. Memory usage: {usage} KB");
+            }
+            catch (Exception ex)
+            {
+                AddResult($"{name}: FAILED - {ex.GetBaseException().Message}");
+            }
         }
 
         private void AddResult(String text)

@@ -15,6 +15,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Get rid of Bmp3 re-encoding
         /// </ToDo>
+        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.SKImage, ConverterKind.Real)]
         public static SKImage ToSKImage(this Image ims)
         {
             using (var ms = new MemoryStream())
@@ -33,6 +34,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Get rid of Bmp3 re-encoding
         /// </ToDo>
+        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.SKBitmap, ConverterKind.Real)]
         public static SKBitmap ToSKBitmap(this Image ims)
         {
             using (var ms = new MemoryStream())

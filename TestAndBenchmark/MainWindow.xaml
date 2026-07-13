@@ -9,44 +9,53 @@
     mc:Ignorable="d">
 
     <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Spacing="10">
+            <StackPanel Width="380">
+                <CheckBox Content="Overlay 'TEST!!' on test image" IsChecked="{x:Bind ViewModel.OverlayTestText, Mode=TwoWay}"/>
+                <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,5,0,5">
+                    <Button Click="Button2_Click">Run selected tests</Button>
+                    <Button Click="Button_Click">Run selected benchmarks</Button>
+                </StackPanel>
+                <TextBlock Text="Available converters (reflection-discovered):"/>
+                <ScrollViewer Height="500" VerticalScrollBarVisibility="Auto">
+                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.AvailableConverters, Mode=OneWay}">
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="local:ConverterSelectionViewModel">
+                                <CheckBox Content="{x:Bind DisplayName}" IsChecked="{x:Bind IsSelected, Mode=TwoWay}"/>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </ScrollViewer>
+            </StackPanel>
 
-        <StackPanel >
-            <Button Click="Button2_Click" >Load tests</Button>
-            <Button Click="Button_Click" >Run benchmarks</Button>
-            
+            <StackPanel>
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Results, Mode=OneWay}"  Margin="0,3,0,0">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="local:ResultViewModel">
+                            <Border>
+                                <Grid MaxWidth="200">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Margin="0,0,0,5" FontSize="10" Text="{x:Bind Text, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                                    <Image Grid.Row="1" Source="{x:Bind Image, Mode=OneWay}" Height="200" Width="200" Stretch="Uniform" VerticalAlignment="Top"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+
+                    <ItemsRepeater.Layout>
+                        <controls:WrapLayout Orientation="Horizontal"
+                                     VerticalSpacing="1"
+                                     HorizontalSpacing="1"/>
+                    </ItemsRepeater.Layout>
+
+                </ItemsRepeater>
+
+
+                <TextBlock Text="{x:Bind Benchmarks.Results, Mode=OneWay}" TextWrapping="Wrap"/>
+            </StackPanel>
         </StackPanel>
-
-        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Results, Mode=OneWay}"  Margin="0,3,0,0" Grid.Row="1">
-            <ItemsRepeater.ItemTemplate>
-                <DataTemplate x:DataType="local:ResultViewModel">
-                    <Border>
-                        <Grid MaxWidth="200">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Margin="0,0,0,5" FontSize="10" Text="{x:Bind Text, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top"/>
-                            <Image Grid.Row="1" Source="{x:Bind Image, Mode=OneWay}" Height="200" Width="200" Stretch="Uniform" VerticalAlignment="Top"/>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </ItemsRepeater.ItemTemplate>
-
-            <ItemsRepeater.Layout>
-                <controls:WrapLayout Orientation="Horizontal" 
-                             VerticalSpacing="1"
-                             HorizontalSpacing="1"/>
-            </ItemsRepeater.Layout>
-
-        </ItemsRepeater>
-
-           
-        <TextBlock Text="{x:Bind Benchmarks.Results, Mode=OneWay}" TextWrapping="Wrap" Grid.Row="2"/>
-  
     </Grid>
 </Window>

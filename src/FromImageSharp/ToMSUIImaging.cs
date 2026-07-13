@@ -17,6 +17,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Get rid of that BMP conversion step
         /// </ToDo>
+        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.WinUIBitmapImage, ConverterKind.Real)]
         public static BitmapImage ToBitmapImage(this SixLabors.ImageSharp.Image img)
         {
             using(var ms = new MemoryStream())
