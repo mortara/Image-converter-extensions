@@ -29,6 +29,10 @@ namespace TestAndBenchmark
 
         public String ShortLabel => $"{Descriptor.Method.Name} ({Descriptor.Attribute.Kind})";
 
+        public String Label => String.IsNullOrWhiteSpace(Descriptor.Attribute.Comment)
+            ? ShortLabel
+            : $"{ShortLabel} ({Descriptor.Attribute.Comment})";
+
         [ObservableProperty]
         private bool isSelected;
     }

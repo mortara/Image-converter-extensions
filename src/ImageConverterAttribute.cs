@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 
 namespace PMortara.Helpers.ImageConverterExtensions
@@ -54,6 +54,8 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <summary>ISO-8601 date string ("yyyy-MM-dd"). DateTime/DateOnly are not valid attribute argument types.</summary>
         public string Date { get; }
 
+        public string Comment { get; }
+
         public ImageLibraryFormat SourceFormat { get; }
 
         public ImageLibraryFormat TargetFormat { get; }
@@ -67,13 +69,14 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// </summary>
         public Type[]? GenericArguments { get; set; }
 
-        public ImageConverterAttribute(string version, string date, ImageLibraryFormat sourceFormat, ImageLibraryFormat targetFormat, ConverterKind kind)
+        public ImageConverterAttribute(string version, string date, ImageLibraryFormat sourceFormat, ImageLibraryFormat targetFormat, ConverterKind kind, String comment = "")
         {
             Version = version;
             Date = date;
             SourceFormat = sourceFormat;
             TargetFormat = targetFormat;
             Kind = kind;
+            Comment = comment;
         }
 
         public DateOnly ParsedDate => DateOnly.ParseExact(Date, "yyyy-MM-dd", CultureInfo.InvariantCulture);

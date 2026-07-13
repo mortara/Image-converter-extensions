@@ -14,7 +14,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Improve handling of different pixelformats
         /// </ToDo>
-        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.SKImage, ImageLibraryFormat.MagickImage, ConverterKind.Real)]
+        [ImageConverter("1.0", "2024-11-04", ImageLibraryFormat.SKImage, ImageLibraryFormat.MagickImage, ConverterKind.Real)]
         public static IMagickImage ToMagickImage(this SKImage skimg)
         {
             if(skimg.IsLazyGenerated)

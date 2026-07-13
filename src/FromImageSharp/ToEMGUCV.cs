@@ -21,7 +21,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// 
         /// </ToDo>
-        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.EMGUCVImage, ConverterKind.Real,
+        [ImageConverter("1.0", "2025-01-09", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.EMGUCVImage, ConverterKind.Real,
             GenericArguments = new[] { typeof(Bgr), typeof(byte) })]
         public unsafe static Image<TColor, TDepth> ToEMGUImage<TColor, TDepth>(this Image<Rgb24> ims) where TColor : struct, IColor where TDepth : new()
         {
@@ -42,7 +42,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         }
 
         
-        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.EMGUCVImage, ConverterKind.Real,
+        [ImageConverter("1.0", "2025-01-09", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.EMGUCVImage, ConverterKind.Real,
             GenericArguments = new[] { typeof(Bgr), typeof(byte) })]
         public static Image<TColor, TDepth> ToEMGUImage_v2<TColor, TDepth>(this Image<Rgb24> ims) where TColor : struct, IColor where TDepth : new()
         {
@@ -62,7 +62,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Get rid of that ToBitmap() step.
         /// </ToDo>
-        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.EMGUCVImage, ConverterKind.Real,
+        [ImageConverter("1.0", "2025-01-09", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.EMGUCVImage, ConverterKind.Real,
             GenericArguments = new[] { typeof(Bgr), typeof(byte) })]
         public static Image<TColor, TDepth> ToEMGUImage_v1<TColor, TDepth>(this Image ims) where TColor : struct, IColor where TDepth : new()
         {
@@ -98,7 +98,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Check for memory-leaks etc
         /// </ToDo>
-        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.EMGUCVImage, ConverterKind.InMemoryWrapper)]
+        [ImageConverter("1.0", "2025-01-09", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.EMGUCVImage, ConverterKind.InMemoryWrapper, "Rgb24")]
         public unsafe static Image<Rgb, byte> AsEMGUCVImage(this Image<Rgb24> ims)
         {
             var stride = ims.PixelType.BitsPerPixel / 8 * ims.Width;
@@ -122,7 +122,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Check for memory-leaks etc
         /// </ToDo>
-        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.EMGUCVImage, ConverterKind.InMemoryWrapper)]
+        [ImageConverter("1.0", "2025-01-09", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.EMGUCVImage, ConverterKind.InMemoryWrapper, "Bgr24")]
         public unsafe static Image<Bgr, byte> AsEMGUCVImage(this Image<Bgr24> ims)
         {
             var stride = ims.PixelType.BitsPerPixel / 8 * ims.Width;

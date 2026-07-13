@@ -62,7 +62,7 @@
                                                     <ItemsRepeater ItemsSource="{x:Bind Converters}">
                                                         <ItemsRepeater.ItemTemplate>
                                                             <DataTemplate x:DataType="local:ConverterSelectionViewModel">
-                                                                <CheckBox Content="{x:Bind ShortLabel}" IsChecked="{x:Bind IsSelected, Mode=TwoWay}" ToolTipService.ToolTip="{x:Bind DisplayName}"/>
+                                                                <CheckBox Content="{x:Bind Label}" IsChecked="{x:Bind IsSelected, Mode=TwoWay}" ToolTipService.ToolTip="{x:Bind DisplayName}"/>
                                                             </DataTemplate>
                                                         </ItemsRepeater.ItemTemplate>
                                                     </ItemsRepeater>

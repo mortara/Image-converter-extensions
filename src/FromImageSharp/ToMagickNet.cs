@@ -7,7 +7,7 @@ namespace PMortara.Helpers.ImageConverterExtensions.FromImageSharp
 {
     public static partial class ImageSharpExtensions
     {
-        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.MagickImage, ConverterKind.Real)]
+        [ImageConverter("1.0", "2024-11-18", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.MagickImage, ConverterKind.Real)]
         public static IMagickImage ToMagickImage(this Image img)
         {
             using (var ms = new MemoryStream()) 

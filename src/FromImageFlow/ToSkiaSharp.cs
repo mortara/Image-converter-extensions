@@ -19,7 +19,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Get rid of Bmp3 re-encoding
         /// </ToDo>
-        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.ImageFlowBuildNode, ImageLibraryFormat.SKImage, ConverterKind.Real)]
+        [ImageConverter("1.0", "2024-11-28", ImageLibraryFormat.ImageFlowBuildNode, ImageLibraryFormat.SKImage, ConverterKind.Real)]
         public static async Task<SKImage> ToSKImageAsync(this BuildNode mimg)
         {
 
@@ -38,7 +38,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Get rid of Bmp3 re-encoding
         /// </ToDo>
-        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.ImageFlowBuildNode, ImageLibraryFormat.SKBitmap, ConverterKind.Real)]
+        [ImageConverter("1.0", "2024-11-28", ImageLibraryFormat.ImageFlowBuildNode, ImageLibraryFormat.SKBitmap, ConverterKind.Real)]
         public static async Task<SKBitmap> ToSKBitmapAsync(this BuildNode mimg)
         {
             var r = await mimg.EncodeToBytes(new Imageflow.Fluent.PngQuantEncoder()).Finish().InProcessAsync();

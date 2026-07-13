@@ -17,7 +17,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Get rid of JPEG re-encoding
         /// </ToDo>
-        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.EMGUCVImage, ImageLibraryFormat.ImageSharpImage, ConverterKind.Real,
+        [ImageConverter("1.0", "2024-12-23", ImageLibraryFormat.EMGUCVImage, ImageLibraryFormat.ImageSharpImage, ConverterKind.Real,
             GenericArguments = new[] { typeof(Bgra), typeof(byte) })]
         public static Image ToImageSharpImage<TColor, TDepth>(this Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
         {
@@ -34,7 +34,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <param name="image"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.EMGUCVImage, ImageLibraryFormat.ImageSharpImage, ConverterKind.InMemoryWrapper,
+        [ImageConverter("1.0", "2024-12-29", ImageLibraryFormat.EMGUCVImage, ImageLibraryFormat.ImageSharpImage, ConverterKind.InMemoryWrapper,
             GenericArguments = new[] { typeof(Bgra), typeof(byte) })]
         public static Image AsImageSharpImage<TColor, TDepth>(this Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
         {

@@ -14,7 +14,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Get rid of Bmp3 re-encoding
         /// </ToDo>
-        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.MagickImage, ImageLibraryFormat.WinUIBitmapImage, ConverterKind.Real)]
+        [ImageConverter("1.0", "2024-11-09", ImageLibraryFormat.MagickImage, ImageLibraryFormat.WinUIBitmapImage, ConverterKind.Real)]
         public static BitmapImage ToBitmapImage(this IMagickImage mimg)
         {
             var bitmapImage = new BitmapImage();
@@ -31,7 +31,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
 
         }
 
-        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.MagickImage, ImageLibraryFormat.WinUIWriteableBitmap, ConverterKind.Real)]
+        [ImageConverter("1.0", "2024-11-08", ImageLibraryFormat.MagickImage, ImageLibraryFormat.WinUIWriteableBitmap, ConverterKind.Real)]
         public static WriteableBitmap ToWriteableBitmap(this IMagickImage magickimage)
         {
             var bitmapImage = new WriteableBitmap((int)magickimage.Width, (int)magickimage.Height);

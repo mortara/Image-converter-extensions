@@ -6,7 +6,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
 {
     public static partial class EMGUCVExtensions
     {
-        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.EMGUCVImage, ImageLibraryFormat.WpfBitmapSource, ConverterKind.Real,
+        [ImageConverter("1.0", "2024-11-13", ImageLibraryFormat.EMGUCVImage, ImageLibraryFormat.WpfBitmapSource, ConverterKind.Real,
             GenericArguments = new[] { typeof(Bgra), typeof(byte) })]
         public static BitmapSource ToWPFBitmapSource<TColor, TDepth>(this Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
         {

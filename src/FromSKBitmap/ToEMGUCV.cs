@@ -14,7 +14,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Get rid of that ToBitmap() step.
         /// </ToDo>
-        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.SKBitmap, ImageLibraryFormat.EMGUCVImage, ConverterKind.Real,
+        [ImageConverter("1.0", "2024-11-05", ImageLibraryFormat.SKBitmap, ImageLibraryFormat.EMGUCVImage, ConverterKind.Real,
             GenericArguments = new[] { typeof(Bgra), typeof(byte) })]
         public static Image<TColor, TDepth> ToEMGUImage<TColor, TDepth>(this SKBitmap skbmp) where TColor : struct, IColor where TDepth : new()
         {
@@ -39,7 +39,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Check for memory-leaks etc
         /// </ToDo>
-        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.SKBitmap, ImageLibraryFormat.EMGUCVImage, ConverterKind.InMemoryWrapper)]
+        [ImageConverter("1.0", "2024-11-10", ImageLibraryFormat.SKBitmap, ImageLibraryFormat.EMGUCVImage, ConverterKind.InMemoryWrapper)]
         public static Image<Bgra, byte> AsEMGUCVImage(this SKBitmap skbmp)
         {
             var stride = skbmp.ColorType.GetBytesPerPixel() * skbmp.Width;

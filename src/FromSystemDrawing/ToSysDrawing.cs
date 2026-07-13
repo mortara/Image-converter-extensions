@@ -4,7 +4,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
 {
     public static partial class SystemDrawingExtensions
     {
-        [ImageConverter("1.0", "2026-07-13", ImageLibraryFormat.SystemDrawingBitmap, ImageLibraryFormat.SystemDrawingBitmap, ConverterKind.Real)]
+        [ImageConverter("1.0", "2024-11-04", ImageLibraryFormat.SystemDrawingBitmap, ImageLibraryFormat.SystemDrawingBitmap, ConverterKind.Real)]
         public static Bitmap ConvertPixelFormat(this Bitmap source, PixelFormat targetFormat = PixelFormat.Format32bppArgb)
         {
             var bmpnew = new Bitmap(source.Width, source.Height, targetFormat);
