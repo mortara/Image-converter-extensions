@@ -159,5 +159,10 @@ namespace TestAndBenchmark
         {
             RunSelectedTests();
         }
+
+        private void MatrixBodyScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            MatrixHeaderScrollViewer.ChangeView(MatrixBodyScrollViewer.HorizontalOffset, null, null, true);
+        }
     }
 }

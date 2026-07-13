@@ -25,9 +25,19 @@
 
         <StackPanel Grid.Row="1" Margin="0,0,0,10">
             <TextBlock Text="Available converters (reflection-discovered) - columns: source format, rows: target format" Margin="0,0,0,5"/>
-            <ScrollViewer Height="420" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <StackPanel>
-                    <!-- column headers: source formats -->
+            <Grid Height="420">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- column headers: source formats -->
+                <ScrollViewer x:Name="MatrixHeaderScrollViewer"
+                              Grid.Row="0"
+                              HorizontalScrollBarVisibility="Hidden"
+                              HorizontalScrollMode="Enabled"
+                              VerticalScrollBarVisibility="Disabled"
+                              VerticalScrollMode="Disabled">
                     <StackPanel Orientation="Horizontal">
                         <Border Width="170" Height="36"/>
                         <ItemsRepeater ItemsSource="{x:Bind ViewModel.MatrixSourceFormats, Mode=OneWay}">
@@ -43,8 +53,14 @@
                             </ItemsRepeater.ItemTemplate>
                         </ItemsRepeater>
                     </StackPanel>
+                </ScrollViewer>
 
-                    <!-- rows: target formats -->
+                <!-- rows: target formats -->
+                <ScrollViewer x:Name="MatrixBodyScrollViewer"
+                              Grid.Row="1"
+                              HorizontalScrollBarVisibility="Auto"
+                              VerticalScrollBarVisibility="Auto"
+                              ViewChanged="MatrixBodyScrollViewer_ViewChanged">
                     <ItemsRepeater ItemsSource="{x:Bind ViewModel.MatrixRows, Mode=OneWay}">
                         <ItemsRepeater.ItemTemplate>
                             <DataTemplate x:DataType="local:ConverterMatrixRowViewModel">
@@ -74,8 +90,8 @@
                             </DataTemplate>
                         </ItemsRepeater.ItemTemplate>
                     </ItemsRepeater>
-                </StackPanel>
-            </ScrollViewer>
+                </ScrollViewer>
+            </Grid>
         </StackPanel>
 
         <StackPanel Grid.Row="2">
