@@ -9,11 +9,11 @@
     mc:Ignorable="d">
 
     <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10">
-        <StackPanel Orientation="Horizontal" Spacing="10">
-            <StackPanel Width="380">
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Width="380" Margin="0,0,10,0">
                 <CheckBox Content="Overlay 'TEST!!' on test image" IsChecked="{x:Bind ViewModel.OverlayTestText, Mode=TwoWay}"/>
-                <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,5,0,5">
-                    <Button Click="Button2_Click">Run selected tests</Button>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                    <Button Click="Button2_Click" Margin="0,0,10,0">Run selected tests</Button>
                     <Button Click="Button_Click">Run selected benchmarks</Button>
                 </StackPanel>
                 <TextBlock Text="Available converters (reflection-discovered):"/>

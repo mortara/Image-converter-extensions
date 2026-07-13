@@ -4,14 +4,10 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using PMortara.Helpers.ImageConverterExtensions;
 using SkiaSharp;
 using System;
-using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Image = SixLabors.ImageSharp.Image;
 using SysBitmap = System.Drawing.Bitmap;
-using WpfBitmapFrame = System.Windows.Media.Imaging.BitmapFrame;
-using WpfBitmapSource = System.Windows.Media.Imaging.BitmapSource;
-using WpfPngBitmapEncoder = System.Windows.Media.Imaging.PngBitmapEncoder;
 
 namespace TestAndBenchmark
 {
@@ -60,7 +56,12 @@ namespace TestAndBenchmark
                     return skImage.ToBitmapImage();
 
                 case ImageLibraryFormat.WpfBitmapSource:
-                    return await ConvertWpfBitmapSourceAsync((WpfBitmapSource)result);
+                    // WPF's System.Windows.Media.Imaging.BitmapSource can't be named in this
+                    // WinUI project without enabling UseWPF, which breaks the WinUI XAML
+                    // compiler when combined with UseWinUI in the same project. Benchmarking
+                    // these converters still works (Benchmarks never names the WPF type);
+                    // only the image preview is unavailable here.
+                    throw new NotSupportedException("WPF BitmapSource results cannot be previewed in this WinUI app; use 'Run selected benchmarks' instead.");
 
                 default:
                     throw new NotSupportedException($"No display adapter for target format {targetFormat}.");
@@ -76,17 +77,6 @@ namespace TestAndBenchmark
                 .MakeGenericMethod(typeArguments);
 
             return (BitmapSource)method.Invoke(null, new[] { emguImage })!;
-        }
-
-        private static async Task<BitmapSource> ConvertWpfBitmapSourceAsync(WpfBitmapSource wpfSource)
-        {
-            var encoder = new WpfPngBitmapEncoder();
-            encoder.Frames.Add(WpfBitmapFrame.Create(wpfSource));
-
-            using var ms = new MemoryStream();
-            encoder.Save(ms);
-
-            return await ms.ToArray().ToBitmapImageAsync();
         }
     }
 }
