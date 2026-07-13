@@ -90,6 +90,10 @@ namespace TestAndBenchmark
             RunTests("SKBitmap to ImageFlow", () => { return _SKBitmap.ToImageFlowBuildNode(); });
 
             RunTests("SKBitmap to BitmapImage", () => { return _SKBitmap.ToBitmapImage(); });
+
+            RunTests("SKBitmap to ToImageSharpImage", () => { return _SKBitmap.ToImageSharpImage(); });
+
+            RunTests("SKBitmap to AsImageSharpImage", () => { return _SKBitmap.AsImageSharpImage(); });
         }
 
         public void RunTests(String name, Func<object> action, int cnt = 10)

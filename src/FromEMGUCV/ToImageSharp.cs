@@ -3,7 +3,7 @@ using Emgu.CV.Structure;
 using SixLabors.ImageSharp.PixelFormats;
 using SkiaSharp;
 using System;
-using Image = SixLabors.ImageSharp.Image;
+using ImageSharpImage = SixLabors.ImageSharp.Image;
 
 namespace PMortara.Helpers.ImageConverterExtensions
 {
@@ -17,11 +17,43 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Get rid of JPEG re-encoding
         /// </ToDo>
-        public static Image ToImageSharpImage<TColor, TDepth>(this Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
+        public static ImageSharpImage ToImageSharpImage_v1<TColor, TDepth>(this Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
         {
             var jpegbytes = image.ToJpegData();
 
-            return Image.Load(jpegbytes);
+            return ImageSharpImage.Load(jpegbytes);
+        }
+
+        public static ImageSharpImage ToImageSharpImage<TColor, TDepth>(this Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
+        {
+            var typeFromHandle = typeof(TColor);
+            var depthFromHandle = typeof(TDepth);
+
+            if (depthFromHandle != typeof(byte))
+            {
+                using var converted = image.Convert<Bgra, byte>();
+                return converted.ToImageSharpImage();
+            }
+
+            var bytes = image.Bytes;
+
+            if (typeFromHandle == typeof(Gray))
+                return ImageSharpImage.LoadPixelData<L8>(bytes, image.Width, image.Height);
+
+            if (typeFromHandle == typeof(Bgra))
+                return ImageSharpImage.LoadPixelData<Bgra32>(bytes, image.Width, image.Height);
+
+            if (typeFromHandle == typeof(Rgba))
+                return ImageSharpImage.LoadPixelData<Rgba32>(bytes, image.Width, image.Height);
+
+            if (typeFromHandle == typeof(Bgr))
+                return ImageSharpImage.LoadPixelData<Bgr24>(bytes, image.Width, image.Height);
+
+            if (typeFromHandle == typeof(Rgb))
+                return ImageSharpImage.LoadPixelData<Rgb24>(bytes, image.Width, image.Height);
+
+            using (var converted = image.Convert<Bgra, byte>())
+                return converted.ToImageSharpImage();
         }
 
         /// <summary>
@@ -32,7 +64,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <param name="image"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public static Image AsImageSharpImage<TColor, TDepth>(this Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
+        public static ImageSharpImage AsImageSharpImage<TColor, TDepth>(this Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
         {
             Type typeFromHandle = typeof(TColor);
             Type depthFromHandle = typeof(TDepth);
@@ -43,23 +75,23 @@ namespace PMortara.Helpers.ImageConverterExtensions
 
                 if (typeFromHandle == typeof(Gray))
                 {
-                    return Image.WrapMemory<L8>(memory, l, image.Width, image.Height);
+                    return ImageSharpImage.WrapMemory<L8>(memory, l, image.Width, image.Height);
                 }
                 else if (typeFromHandle == typeof(Bgra))
                 {
-                    return Image.WrapMemory<Bgra32>(memory, l, image.Width, image.Height);
+                    return ImageSharpImage.WrapMemory<Bgra32>(memory, l, image.Width, image.Height);
                 }
                 else if (typeFromHandle == typeof(Rgba))
                 {
-                    return Image.WrapMemory<Rgba32>(memory, l, image.Width, image.Height);
+                    return ImageSharpImage.WrapMemory<Rgba32>(memory, l, image.Width, image.Height);
                 }
                 else if (typeFromHandle == typeof(Bgr))
                 {
-                    return Image.WrapMemory<Bgr24>(memory, l, image.Width, image.Height);
+                    return ImageSharpImage.WrapMemory<Bgr24>(memory, l, image.Width, image.Height);
                 }
                 else if (typeFromHandle == typeof(Rgb))
                 {
-                    return Image.WrapMemory<Rgb24>(memory, l, image.Width, image.Height);
+                    return ImageSharpImage.WrapMemory<Rgb24>(memory, l, image.Width, image.Height);
                 }
             }
 

@@ -75,6 +75,7 @@ namespace TestAndBenchmark
             AddConversionResult("MagickImage -> ToWriteableBitmap", _MagickImage.ToWriteableBitmap());
 
             var emgucvimg = skimg.ToEMGUImage<Bgra, byte>();
+            //var emgucvimg = skimg.ToEMGUImage_V2<Bgra, byte>();
             AddConversionResult("SKImage -> EMGUCV Image -> ToBitmapImage", emgucvimg.ToBitmapImage());
 
             var imagemagickimage = skimg.ToMagickImage();
