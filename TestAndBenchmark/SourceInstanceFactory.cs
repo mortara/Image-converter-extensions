@@ -37,7 +37,10 @@ namespace TestAndBenchmark
 
             // Canonical EMGU representation: Image<Bgra, byte>. Matches the
             // GenericArguments declared on every EMGU-sourced [ImageConverter].
-            map[ImageLibraryFormat.EMGUCVImage] = new Image<Bgra, byte>(sysBitmap);
+            // (Image<TColor,TDepth> has no Bitmap constructor; Emgu.CV.Bitmap
+            // provides this as an extension method instead, same as elsewhere
+            // in this repo, e.g. src/FromSKImage/ToEMGUCV.cs.)
+            map[ImageLibraryFormat.EMGUCVImage] = sysBitmap.ToImage<Bgra, byte>();
 
             // Canonical ImageSharp representation. Image<Rgb24> derives from
             // Image, so this single instance also satisfies converters whose
