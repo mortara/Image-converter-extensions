@@ -65,7 +65,7 @@ namespace TestAndBenchmark
 
         private IReadOnlyDictionary<ImageLibraryFormat, object> BuildSources()
         {
-            var bytes = TestOverlay.ApplyIfRequested(TestImagePath, ViewModel.OverlayTestText);
+            var bytes = File.ReadAllBytes(TestImagePath);
             return SourceInstanceFactory.CreateAll(bytes);
         }
 
@@ -98,7 +98,16 @@ namespace TestAndBenchmark
                         }
 
                         var result = await ConverterInvoker.InvokeAsync(descriptor, source);
-                        var display = await ResultDisplayAdapter.ToDisplayImageAsync(result, descriptor.Attribute.TargetFormat);
+
+                        BitmapSource display;
+                        var stamped = ViewModel.OverlayTestText
+                            ? await TestOverlay.StampAsync(result, descriptor.Attribute.TargetFormat)
+                            : null;
+
+                        display = stamped is not null
+                            ? stamped.ToBitmapImage()
+                            : await ResultDisplayAdapter.ToDisplayImageAsync(result, descriptor.Attribute.TargetFormat);
+
                         AddConversionResult(descriptor.DisplayName, display);
                     }
                     catch (Exception ex)

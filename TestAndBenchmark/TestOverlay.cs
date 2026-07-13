@@ -1,44 +1,101 @@
-using Emgu.CV;
-using Emgu.CV.CvEnum;
-using Emgu.CV.Structure;
+using ImageMagick;
+using Imageflow.Fluent;
+using PMortara.Helpers.ImageConverterExtensions;
+using PMortara.Helpers.ImageConverterExtensions.FromByteArray;
+using SkiaSharp;
 using System.Drawing;
-using System.IO;
+using System.Drawing.Imaging;
+using System.Reflection;
+using System.Threading.Tasks;
+using Image = SixLabors.ImageSharp.Image;
 
 namespace TestAndBenchmark
 {
     /// <summary>
-    /// Optionally stamps "TEST!!" centered onto the shared test image before it
-    /// is loaded into the various source-library representations, so every
-    /// converter run sees the same modification (or none).
+    /// Stamps "TEST!!" centered onto a converter's result, right after the
+    /// converter runs and before the result is turned into a displayable
+    /// WinUI image -- this proves the converted object can still be
+    /// manipulated with an appropriate library's own drawing API.
     /// </summary>
     public static class TestOverlay
     {
         private const string OverlayText = "TEST!!";
 
-        public static byte[] ApplyIfRequested(string imagePath, bool applyOverlay)
+        /// <summary>
+        /// Draws the overlay onto the result and returns a ready-to-display
+        /// System.Drawing.Bitmap, or null if this TargetFormat has no drawable
+        /// representation available here (caller should then display the
+        /// un-stamped result instead).
+        /// </summary>
+        public static async Task<Bitmap> StampAsync(object result, ImageLibraryFormat targetFormat)
         {
-            if (!applyOverlay)
-                return File.ReadAllBytes(imagePath);
+            var bitmap = await ToDrawableBitmapAsync(result, targetFormat);
+            if (bitmap is null)
+                return null;
 
-            using var image = new Image<Bgra, byte>(imagePath);
+            using (var g = Graphics.FromImage(bitmap))
+            using (var font = new Font("Arial", System.Math.Max(12f, bitmap.Width / 15f), FontStyle.Bold))
+            {
+                var textSize = g.MeasureString(OverlayText, font);
+                var origin = new PointF(
+                    (bitmap.Width - textSize.Width) / 2f,
+                    (bitmap.Height - textSize.Height) / 2f);
+                g.DrawString(OverlayText, font, Brushes.Red, origin);
+            }
 
-            // Scale text to the actual image resolution -- a fixed small
-            // font size is invisible on a multi-thousand-pixel photo. This
-            // yields ~50/25 on the 6048x4024 default test image, matching
-            // values already proven visible in earlier ad-hoc Draw() calls.
-            double fontScale = System.Math.Max(1.0, image.Width / 120.0);
-            int thickness = System.Math.Max(1, (int)(fontScale / 2));
+            return bitmap;
+        }
 
-            int baseline = 0;
-            var textSize = CvInvoke.GetTextSize(OverlayText, FontFace.HersheyPlain, fontScale, thickness, ref baseline);
+        private static async Task<Bitmap> ToDrawableBitmapAsync(object result, ImageLibraryFormat targetFormat)
+        {
+            switch (targetFormat)
+            {
+                case ImageLibraryFormat.SKImage:
+                    return ((SKImage)result).ToBitmap(PixelFormat.Format32bppArgb);
 
-            var origin = new Point(
-                (image.Width - textSize.Width) / 2,
-                (image.Height + textSize.Height) / 2);
+                case ImageLibraryFormat.SKBitmap:
+                    return ((SKBitmap)result).ToBitmap(PixelFormat.Format32bppArgb);
 
-            image.Draw(OverlayText, origin, FontFace.HersheyPlain, fontScale, new Bgra(0, 0, 255, 255), thickness);
+                case ImageLibraryFormat.SystemDrawingBitmap:
+                    return (Bitmap)result;
 
-            return image.ToJpegData();
+                case ImageLibraryFormat.ByteArray:
+                    return (Bitmap)((byte[])result).ToDrawingImage();
+
+                case ImageLibraryFormat.ImageSharpImage:
+                    return (Bitmap)((Image)result).ToArray();
+
+                case ImageLibraryFormat.MagickImage:
+                    using (var skImage = ((IMagickImage)result).ToSKImage())
+                        return skImage.ToBitmap(PixelFormat.Format32bppArgb);
+
+                case ImageLibraryFormat.EMGUCVImage:
+                    return EmguResultToBitmap(result);
+
+                case ImageLibraryFormat.ImageFlowBuildNode:
+                    using (var skImage = await ((BuildNode)result).ToSKImageAsync())
+                        return skImage.ToBitmap(PixelFormat.Format32bppArgb);
+
+                default:
+                    // WPF BitmapSource, WinUI-native BitmapImage/WriteableBitmap: no
+                    // drawable conversion wired up here; leave the result unmodified.
+                    return null;
+            }
+        }
+
+        private static Bitmap EmguResultToBitmap(object emguImage)
+        {
+            // Reuse our own EMGU -> ImageSharp -> System.Drawing chain (both
+            // already-attributed converters) instead of guessing at the
+            // declaring type of Emgu.CV.Bitmap's external ToBitmap() extension.
+            var imageType = emguImage.GetType();
+            var typeArguments = imageType.GetGenericArguments();
+            var toImageSharp = typeof(EMGUCVExtensions)
+                .GetMethod(nameof(EMGUCVExtensions.ToImageSharpImage), BindingFlags.Public | BindingFlags.Static)!
+                .MakeGenericMethod(typeArguments);
+
+            var imageSharpImage = (Image)toImageSharp.Invoke(null, new[] { emguImage })!;
+            return (Bitmap)imageSharpImage.ToArray();
         }
     }
 }
