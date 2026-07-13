@@ -17,6 +17,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Get rid of Bmp3 re-encoding
         /// </ToDo>
+        [ImageConverter("1.0", "2024-11-18", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.SKImage, ConverterKind.Real)]
         public static SKImage ToSKImage_v1(this Image ims)
         {
             using (var ms = new MemoryStream())
@@ -27,6 +28,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
             }
         }
 
+        [ImageConverter("2.0", "2026-07-13", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.SKImage, ConverterKind.Real)]
         public static SKImage ToSKImage_v2(this Image imageSharpImage)
         {
             SKImageInfo info = SKImageInfo.Empty;
@@ -61,6 +63,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
             }
         }
 
+        [ImageConverter("3.0", "2026-07-13", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.SKImage, ConverterKind.Real)]
         public static SKImage ToSKImage(this Image ims)
         {
             using var bitmap = ims.ToSKBitmap();
@@ -75,6 +78,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Get rid of Bmp3 re-encoding
         /// </ToDo>
+        [ImageConverter("1.0", "2024-11-18", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.SKBitmap, ConverterKind.Real)]
         public static SKBitmap ToSKBitmap_v1(this Image ims)
         {
             using (var ms = new MemoryStream())
@@ -85,6 +89,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
             }
         }
 
+        [ImageConverter("2.0", "2026-07-13", ImageLibraryFormat.ImageSharpImage, ImageLibraryFormat.SKBitmap, ConverterKind.Real)]
         public static SKBitmap ToSKBitmap(this Image ims)
         {
             using (var rgba = ims.CloneAs<Rgba32>())

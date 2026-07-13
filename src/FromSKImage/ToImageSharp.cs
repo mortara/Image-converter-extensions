@@ -13,6 +13,7 @@ namespace PMortara.Helpers.ImageConverterExtensions.FromSKBitmap
         /// </summary>
         /// <param name="skiaBitmap"></param>
         /// <returns></returns>
+        [ImageConverter("1.0", "2024-11-18", ImageLibraryFormat.SKImage, ImageLibraryFormat.ImageSharpImage, ConverterKind.Real)]
         public static Image ToImageSharpImage_v1(this SKImage skiaImage)
         {
             var skiaBitmap = SKBitmap.FromImage(skiaImage);
@@ -42,6 +43,7 @@ namespace PMortara.Helpers.ImageConverterExtensions.FromSKBitmap
             return image;
         }
 
+        [ImageConverter("2.0", "2026-07-13", ImageLibraryFormat.SKImage, ImageLibraryFormat.ImageSharpImage, ConverterKind.Real)]
         public static Image ToImageSharpImage(this SKImage skiaImage)
         {
             using var skiaBitmap = SKBitmap.FromImage(skiaImage);

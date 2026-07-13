@@ -8,6 +8,7 @@ namespace PMortara.Helpers.ImageConverterExtensions.FromSKBitmap
     public static partial class SKBitmapExtensions
     {
      
+        [ImageConverter("1.0", "2024-11-28", ImageLibraryFormat.SKBitmap, ImageLibraryFormat.ImageFlowBuildNode, ConverterKind.Real)]
         public static BuildNode ToImageFlowBuildNode(this SKBitmap skbmp)
         {
 

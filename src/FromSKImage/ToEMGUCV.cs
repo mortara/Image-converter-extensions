@@ -1,4 +1,5 @@
 ﻿using Emgu.CV;
+using Emgu.CV.Structure;
 using SkiaSharp;
 using System.Drawing.Imaging;
 
@@ -14,6 +15,8 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Get rid of that ToBitmap() step.
         /// </ToDo>
+        [ImageConverter("1.0", "2024-11-05", ImageLibraryFormat.SKImage, ImageLibraryFormat.EMGUCVImage, ConverterKind.Real,
+            GenericArguments = new[] { typeof(Bgra), typeof(byte) })]
         public static Image<TColor, TDepth> ToEMGUImage<TColor, TDepth>(this SKImage img) where TColor : struct, IColor where TDepth : new()
         {
             var bmp = img.ToBitmap(PixelFormat.Format32bppArgb);
@@ -28,6 +31,8 @@ namespace PMortara.Helpers.ImageConverterExtensions
             }
         }
 
+        [ImageConverter("2.0", "2026-07-13", ImageLibraryFormat.SKImage, ImageLibraryFormat.EMGUCVImage, ConverterKind.Real,
+            GenericArguments = new[] { typeof(Bgra), typeof(byte) })]
         public static Image<TColor, TDepth> ToEMGUImage_V2<TColor, TDepth>(this SKImage img)
             where TColor : struct, IColor
             where TDepth : new()

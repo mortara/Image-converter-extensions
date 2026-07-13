@@ -12,6 +12,7 @@ namespace PMortara.Helpers.ImageConverterExtensions.FromSKBitmap
         /// </summary>
         /// <param name="skiaBitmap"></param>
         /// <returns></returns>
+        [ImageConverter("1.0", "2024-11-18", ImageLibraryFormat.SKBitmap, ImageLibraryFormat.ImageSharpImage, ConverterKind.Real)]
         public static Image ToImageSharpImage(this SKBitmap skiaBitmap)
         {
             /// Directy load Pixeldata for known ColorTypes
@@ -45,6 +46,7 @@ namespace PMortara.Helpers.ImageConverterExtensions.FromSKBitmap
         /// <param name="skiaBitmap"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
+        [ImageConverter("1.0", "2024-12-28", ImageLibraryFormat.SKBitmap, ImageLibraryFormat.ImageSharpImage, ConverterKind.InMemoryWrapper)]
         public static Image AsImageSharpImage(this SKBitmap skiaBitmap)
         {
             unsafe

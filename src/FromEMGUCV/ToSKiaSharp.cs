@@ -12,6 +12,8 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// </summary>
         /// <param name="skimg"></param>
         /// <returns></returns>
+        [ImageConverter("1.0", "2024-11-09", ImageLibraryFormat.EMGUCVImage, ImageLibraryFormat.SKImage, ConverterKind.Real,
+            GenericArguments = new[] { typeof(Bgra), typeof(byte) })]
         public static SKImage ToSKImage<TColor, TDepth>(this Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
         {
             using(var bmp = image.ToSKBitmap())
@@ -23,6 +25,8 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// </summary>
         /// <param name="skimg"></param>
         /// <returns></returns>
+        [ImageConverter("1.0", "2024-11-09", ImageLibraryFormat.EMGUCVImage, ImageLibraryFormat.SKBitmap, ConverterKind.Real,
+            GenericArguments = new[] { typeof(Bgra), typeof(byte) })]
         public static SKBitmap ToSKBitmap<TColor, TDepth>(this Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
         {
             Type typeFromHandle = typeof(TColor);

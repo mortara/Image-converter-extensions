@@ -11,6 +11,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// </summary>
         /// <param name="bitmap"></param>
         /// <returns></returns>
+        [ImageConverter("1.0", "2024-11-09", ImageLibraryFormat.SystemDrawingBitmap, ImageLibraryFormat.WinUIBitmapImage, ConverterKind.Real)]
         public static BitmapImage ToBitmapImage(this Bitmap bitmap)
         {
             var bitmapImage = new BitmapImage();
@@ -27,6 +28,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
 
         }
 
+        [ImageConverter("1.0", "2024-11-08", ImageLibraryFormat.SystemDrawingBitmap, ImageLibraryFormat.WinUIWriteableBitmap, ConverterKind.Real)]
         public static WriteableBitmap ToWriteableBitmap(this Bitmap bitmap)
         {
             var bitmapImage = new WriteableBitmap(bitmap.Width, bitmap.Height);

@@ -13,6 +13,7 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Improve handling of different pixelformats
         /// </ToDo>
+        [ImageConverter("1.0", "2024-11-04", ImageLibraryFormat.SKBitmap, ImageLibraryFormat.MagickImage, ConverterKind.Real)]
         public static IMagickImage ToMagickImage(this SKBitmap skbmp)
         {
             var pixels = skbmp.GetPixelSpan();

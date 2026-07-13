@@ -17,6 +17,8 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <ToDo>
         /// Get rid of JPEG re-encoding
         /// </ToDo>
+        [ImageConverter("1.0", "2024-12-23", ImageLibraryFormat.EMGUCVImage, ImageLibraryFormat.ImageSharpImage, ConverterKind.Real,
+            GenericArguments = new[] { typeof(Bgra), typeof(byte) })]
         public static ImageSharpImage ToImageSharpImage_v1<TColor, TDepth>(this Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
         {
             var jpegbytes = image.ToJpegData();
@@ -24,6 +26,13 @@ namespace PMortara.Helpers.ImageConverterExtensions
             return ImageSharpImage.Load(jpegbytes);
         }
 
+        /// <summary>
+        /// Converts a EMGU.CV Image into a ImageSharp.Image via a direct pixel-path
+        /// (no JPEG re-encoding), falling back to a Bgra/byte conversion for
+        /// unsupported color/depth combinations.
+        /// </summary>
+        [ImageConverter("2.0", "2026-07-13", ImageLibraryFormat.EMGUCVImage, ImageLibraryFormat.ImageSharpImage, ConverterKind.Real,
+            GenericArguments = new[] { typeof(Bgra), typeof(byte) })]
         public static ImageSharpImage ToImageSharpImage<TColor, TDepth>(this Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
         {
             var typeFromHandle = typeof(TColor);
@@ -64,6 +73,8 @@ namespace PMortara.Helpers.ImageConverterExtensions
         /// <param name="image"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
+        [ImageConverter("1.0", "2024-12-29", ImageLibraryFormat.EMGUCVImage, ImageLibraryFormat.ImageSharpImage, ConverterKind.InMemoryWrapper,
+            GenericArguments = new[] { typeof(Bgra), typeof(byte) })]
         public static ImageSharpImage AsImageSharpImage<TColor, TDepth>(this Image<TColor, TDepth> image) where TColor : struct, IColor where TDepth : new()
         {
             Type typeFromHandle = typeof(TColor);
