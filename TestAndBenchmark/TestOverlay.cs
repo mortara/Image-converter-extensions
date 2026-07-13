@@ -14,8 +14,6 @@ namespace TestAndBenchmark
     public static class TestOverlay
     {
         private const string OverlayText = "TEST!!";
-        private const double FontScale = 8.0;
-        private const int Thickness = 6;
 
         public static byte[] ApplyIfRequested(string imagePath, bool applyOverlay)
         {
@@ -24,14 +22,21 @@ namespace TestAndBenchmark
 
             using var image = new Image<Bgra, byte>(imagePath);
 
+            // Scale text to the actual image resolution -- a fixed small
+            // font size is invisible on a multi-thousand-pixel photo. This
+            // yields ~50/25 on the 6048x4024 default test image, matching
+            // values already proven visible in earlier ad-hoc Draw() calls.
+            double fontScale = System.Math.Max(1.0, image.Width / 120.0);
+            int thickness = System.Math.Max(1, (int)(fontScale / 2));
+
             int baseline = 0;
-            var textSize = CvInvoke.GetTextSize(OverlayText, FontFace.HersheyPlain, FontScale, Thickness, ref baseline);
+            var textSize = CvInvoke.GetTextSize(OverlayText, FontFace.HersheyPlain, fontScale, thickness, ref baseline);
 
             var origin = new Point(
                 (image.Width - textSize.Width) / 2,
                 (image.Height + textSize.Height) / 2);
 
-            image.Draw(OverlayText, origin, FontFace.HersheyPlain, FontScale, new Bgra(255, 0, 0, 255), Thickness);
+            image.Draw(OverlayText, origin, FontFace.HersheyPlain, fontScale, new Bgra(0, 0, 255, 255), thickness);
 
             return image.ToJpegData();
         }
