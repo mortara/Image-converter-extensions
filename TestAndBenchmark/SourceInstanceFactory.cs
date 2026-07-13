@@ -23,6 +23,10 @@ namespace TestAndBenchmark
     {
         public static IReadOnlyDictionary<ImageLibraryFormat, object> CreateAll(byte[] sourceBytes)
         {
+            // Required by ImageSharpExtensions.ToEMGUImage<TColor,TDepth> (and other
+            // converters that access ImageSharp's single contiguous pixel buffer).
+            Configuration.Default.PreferContiguousImageBuffers = true;
+
             var map = new Dictionary<ImageLibraryFormat, object>();
 
             var skBitmap = SKBitmap.Decode(sourceBytes);
