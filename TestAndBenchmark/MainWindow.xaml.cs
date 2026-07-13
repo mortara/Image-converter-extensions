@@ -26,6 +26,38 @@ namespace TestAndBenchmark
 
             foreach (var descriptor in ConverterCatalog.Discover())
                 ViewModel.AvailableConverters.Add(new ConverterSelectionViewModel(descriptor));
+
+            BuildConverterMatrix();
+        }
+
+        private void BuildConverterMatrix()
+        {
+            var sourceFormats = ViewModel.AvailableConverters
+                .Select(c => c.Descriptor.Attribute.SourceFormat)
+                .Distinct()
+                .OrderBy(f => f)
+                .ToList();
+
+            var targetFormats = ViewModel.AvailableConverters
+                .Select(c => c.Descriptor.Attribute.TargetFormat)
+                .Distinct()
+                .OrderBy(f => f)
+                .ToList();
+
+            ViewModel.MatrixSourceFormats.Clear();
+            foreach (var sourceFormat in sourceFormats)
+                ViewModel.MatrixSourceFormats.Add(sourceFormat.ToString());
+
+            ViewModel.MatrixRows.Clear();
+            foreach (var targetFormat in targetFormats)
+            {
+                var cells = sourceFormats.Select(sourceFormat => new ConverterMatrixCellViewModel(
+                    ViewModel.AvailableConverters.Where(c =>
+                        c.Descriptor.Attribute.SourceFormat == sourceFormat &&
+                        c.Descriptor.Attribute.TargetFormat == targetFormat)));
+
+                ViewModel.MatrixRows.Add(new ConverterMatrixRowViewModel(targetFormat.ToString(), cells));
+            }
         }
 
         private static String TestImagePath =>
