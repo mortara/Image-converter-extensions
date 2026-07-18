@@ -1,52 +1,90 @@
-# Image converter extensions
- 
-A collection of (currently very quick & dirty) extension-methods to convert images between different library formats. 
+# Image Converter Extensions
 
-Currently it covers images of: 
-- SkiaSharp (https://github.com/mono/SkiaSharp)
-- EMGU.CV (https://github.com/emgucv/emgucv)
-- Magick.NET (https://github.com/dlemstra/Magick.NET)
-- ImageSharp (https://sixlabors.com/products/imagesharp/)
-- ImageFlow dotNet (https://github.com/imazen/imageflow-dotnet)
-- Microsoft.UI.Xaml.Media.Imaging.BitmapImage
-- System.Windows.Media.Imaging
-- System.Drawing
+A collection of extension methods to convert images between different .NET image library formats.
 
-Most conversion use a intermediate step over a System.Drawing.Image. My goal ist to get rid
-of all these unnecessary steps and make direct conversions if possible.
+[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
+[![.NET](https://img.shields.io/badge/.NET-C%23-blue)](https://dotnet.microsoft.com/)
 
-Some of the supported conversions:
+## Overview
 
- - SkiaSharp.SKImage <-> ImageMagick.IMagickImage
- - SkiaSharp.SKImage <-> Emgu.CV.Image
- - SkiaSharp.SKImage -> System.Drawing.Bitmap (with option to specify pixelformat)
+This library provides seamless conversion between popular .NET image processing libraries through convenient extension methods. Whether you're working with SkiaSharp, ImageMagick, EMGU.CV, or other image libraries, these extensions help you convert between formats with minimal friction.
 
- - SkiaSharp.SKBitmap <-> ImageMagick.IMagickImage
- - SkiaSharp.SKBitmap <-> Emgu.CV.Image
- - SkiaSharp.SKBitmap -> System.Drawing.Bitmap (with option to specify pixelformat)
+## Supported Libraries
 
- - System.Drawing.Icon -> SkiaSharp.SKImage
+- **[SkiaSharp](https://github.com/mono/SkiaSharp)** - Cross-platform 2D graphics API
+- **[EMGU.CV](https://github.com/emgucv/emgucv)** - .NET wrapper for OpenCV
+- **[Magick.NET](https://github.com/dlemstra/Magick.NET)** - ImageMagick for .NET
+- **[ImageSharp](https://sixlabors.com/products/imagesharp/)** - Modern image processing library
+- **[ImageFlow dotNet](https://github.com/imazen/imageflow-dotnet)** - High-performance image manipulation
+- **Microsoft.UI.Xaml.Media.Imaging.BitmapImage** - WinUI imaging
+- **System.Windows.Media.Imaging** - WPF imaging
+- **System.Drawing** - Classic .NET imaging
 
-More extensions are about to come.
+## Supported Conversions
 
-# Usage
+### SkiaSharp.SKImage
+- ↔️ ImageMagick.IMagickImage
+- ↔️ Emgu.CV.Image
+- → System.Drawing.Bitmap (with optional pixel format specification)
 
-I have no intentions to publish this as a nuget package or something like that. The best way to use it,
-is probably to just copy and paste the parts you really need into your own project.
+### SkiaSharp.SKBitmap
+- ↔️ ImageMagick.IMagickImage
+- ↔️ Emgu.CV.Image
+- → System.Drawing.Bitmap (with optional pixel format specification)
 
-All conversions that start with ToXXXX() (e.g. ToSKImage()) are meant to create a new copy of the image.
-Conversions starting with AsXXXX() do not create a new copy.
+### Other Conversions
+- System.Drawing.Icon → SkiaSharp.SKImage
 
-# Contribution
+*More conversions are continuously being added.*
 
-Any kinf of contribution is highly welcomed and appreciated!
+## Usage
 
-# License
+### Installation
 
-Do whatever you want with it!
+This library is not published as a NuGet package. The recommended approach is to copy the specific extension methods you need into your project.
 
-# Contact
+### Naming Convention
 
-https://www.mortara.org
+- **`ToXXXX()`** methods (e.g., `ToSKImage()`) - Create a **new copy** of the image
+- **`AsXXXX()`** methods - Do **not** create a copy, working with the existing data
 
-https://talk.mls20.de/@Patrick
+### Example
+
+```csharp
+using SkiaSharp;
+using ImageMagick;
+
+// Convert SKImage to MagickImage (creates new copy)
+SKImage skImage = ...;
+IMagickImage magickImage = skImage.ToMagickImage();
+
+// Convert back
+SKImage converted = magickImage.ToSKImage();
+```
+
+## Development Goals
+
+The library currently uses `System.Drawing.Image` as an intermediate format for some conversions. The ongoing goal is to eliminate these unnecessary intermediate steps and implement direct conversions wherever possible for better performance.
+
+## Contributing
+
+Contributions are highly welcomed and appreciated! Whether it's:
+- Adding new conversion methods
+- Optimizing existing conversions
+- Improving documentation
+- Reporting bugs
+
+Feel free to open issues or submit pull requests.
+
+## License
+
+This project is licensed under [The Unlicense](LICENSE) - do whatever you want with it!
+
+## Contact
+
+- **Website:** [https://www.mortara.org](https://www.mortara.org)
+- **Mastodon:** [https://talk.mls20.de/@Patrick](https://talk.mls20.de/@Patrick)
+
+---
+
+**Note:** This is currently a work in progress. Some conversions may be "quick & dirty" implementations and are subject to improvement.
